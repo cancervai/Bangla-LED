@@ -14,7 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BANGLA_LED_VERSION', '1.0.0' );
+define( 'BANGLA_LED_VERSION', '1.1.0' );
+
+require_once get_template_directory() . '/inc/demo-articles.php';
 
 /**
  * Default cinematic imagery (used when no featured image is set).
@@ -568,6 +570,25 @@ function bangla_led_json_ld() {
 		);
 	}
 
+	if ( is_front_page() && function_exists( 'bangla_led_faqs' ) ) {
+		$faq_items = array();
+		foreach ( bangla_led_faqs() as $faq ) {
+			$faq_items[] = array(
+				'@type'          => 'Question',
+				'name'           => $faq['q'],
+				'acceptedAnswer' => array(
+					'@type' => 'Answer',
+					'text'  => $faq['a'],
+				),
+			);
+		}
+		$schema[] = array(
+			'@context'   => 'https://schema.org',
+			'@type'      => 'FAQPage',
+			'mainEntity' => $faq_items,
+		);
+	}
+
 	foreach ( $schema as $block ) {
 		echo '<script type="application/ld+json">' . wp_json_encode( $block, JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 	}
@@ -627,7 +648,7 @@ function bangla_led_find_by_title( $title, $type ) {
 }
 
 function bangla_led_seed_demo_content() {
-	if ( get_option( 'bangla_led_seeded_v2' ) ) {
+	if ( get_option( 'bangla_led_seeded_v3' ) ) {
 		flush_rewrite_rules();
 		return;
 	}
@@ -636,11 +657,20 @@ function bangla_led_seed_demo_content() {
 	bangla_led_register_post_types();
 
 	require_once get_template_directory() . '/inc/demo-content.php';
+	require_once get_template_directory() . '/inc/demo-content-extra.php';
+	require_once get_template_directory() . '/inc/demo-articles.php';
 
-	/* Terms — cities and their neighborhoods. */
+	/* Terms — cities and their neighborhoods (base + extended). */
+	$all_terms = bangla_led_demo_terms();
+	foreach ( bangla_led_demo_terms_extra() as $city => $hoods ) {
+		$all_terms[ $city ] = isset( $all_terms[ $city ] )
+			? array_merge( $all_terms[ $city ], $hoods )
+			: $hoods;
+	}
+
 	$city_ids = array();
 	$hood_ids = array();
-	foreach ( bangla_led_demo_terms() as $city => $hoods ) {
+	foreach ( $all_terms as $city => $hoods ) {
 		$existing = term_exists( $city, 'city' );
 		$term     = $existing ? $existing : wp_insert_term( $city, 'city' );
 		if ( ! is_wp_error( $term ) ) {
@@ -656,7 +686,8 @@ function bangla_led_seed_demo_content() {
 	}
 
 	/* Locations — skip any title that already exists so re-seeding is safe. */
-	foreach ( bangla_led_demo_locations() as $loc ) {
+	$all_locations = array_merge( bangla_led_demo_locations(), bangla_led_demo_locations_extra() );
+	foreach ( $all_locations as $loc ) {
 		$existing = bangla_led_find_by_title( $loc['title'], 'location' );
 		if ( $existing ) {
 			$post_id = $existing;
@@ -716,7 +747,23 @@ function bangla_led_seed_demo_content() {
 		) );
 	}
 
-	update_option( 'bangla_led_seeded_v2', 1 );
+	/* Area guides + question articles — explicit slugs so templates can link them. */
+	$editorial = array_merge( bangla_led_demo_area_articles(), bangla_led_demo_faq_articles() );
+	foreach ( $editorial as $article ) {
+		if ( bangla_led_find_by_title( $article['title'], 'post' ) ) {
+			continue;
+		}
+		wp_insert_post( array(
+			'post_type'    => 'post',
+			'post_status'  => 'publish',
+			'post_title'   => $article['title'],
+			'post_name'    => $article['slug'],
+			'post_excerpt' => $article['excerpt'],
+			'post_content' => $article['content'],
+		) );
+	}
+
+	update_option( 'bangla_led_seeded_v3', 1 );
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'bangla_led_seed_demo_content' );

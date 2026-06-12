@@ -52,6 +52,30 @@ $term_name = ( $term && ! is_wp_error( $term ) ) ? $term->name : __( 'Bangladesh
         </div>
     </div>
 
+    <?php
+    /* Area guide — link the silo hub to its editorial branch article. */
+    $area_guide = ( $term && ! is_wp_error( $term ) )
+        ? get_page_by_path( 'billboard-advertising-in-' . $term->slug, OBJECT, 'post' )
+        : null;
+    if ( $area_guide ) :
+        ?>
+        <div class="glass-panel p-8 md:p-10 mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+                <div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-2"><?php esc_html_e( 'The Corridor Guide', 'bangla-led' ); ?></div>
+                <div class="text-headline-lg font-bold text-primary uppercase tracking-tight"><?php echo esc_html( $area_guide->post_title ); ?></div>
+            </div>
+            <a class="glass-button px-8 py-4 text-label-caps uppercase tracking-widest no-underline shrink-0" href="<?php echo esc_url( get_permalink( $area_guide ) ); ?>">
+                <?php
+                printf(
+                    /* translators: %s: term name. */
+                    esc_html__( 'Read The %s Guide', 'bangla-led' ),
+                    esc_html( $term_name )
+                );
+                ?>
+            </a>
+        </div>
+    <?php endif; ?>
+
     <?php if ( have_posts() ) : ?>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
             <?php

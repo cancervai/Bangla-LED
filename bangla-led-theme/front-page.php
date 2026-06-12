@@ -276,12 +276,65 @@ $campaigns = new WP_Query( array(
     </div>
 </section>
 
+<!-- FAQ — peak-keyword questions, each backed by a dedicated article -->
+<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10" id="faq">
+    <div class="max-w-3xl mb-16">
+        <span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6">
+            <?php esc_html_e( '05 &mdash; Intelligence Briefing', 'bangla-led' ); ?>
+        </span>
+        <h2 class="text-headline-xl md:text-display-lg-mobile font-black text-primary uppercase tracking-tight mb-6">
+            <?php esc_html_e( 'Questions Media Buyers Ask', 'bangla-led' ); ?>
+        </h2>
+        <p class="text-body-lg text-on-surface-variant">
+            <?php esc_html_e( 'Straight answers first, full intelligence one click deeper. Every question links to a complete field guide.', 'bangla-led' ); ?>
+        </p>
+    </div>
+
+    <div class="flex flex-col border-t border-white/10">
+        <?php foreach ( bangla_led_faqs() as $i => $faq ) : ?>
+            <div class="bl-faq-item border-b border-white/10">
+                <button type="button" class="bl-faq-toggle w-full flex items-center justify-between gap-6 py-8 text-left bg-transparent border-0 cursor-pointer group" aria-expanded="false" aria-controls="bl-faq-panel-<?php echo (int) $i; ?>">
+                    <span class="flex items-baseline gap-6">
+                        <span class="text-mono-label text-white/30 font-black tracking-widest"><?php echo esc_html( str_pad( (string) ( $i + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span>
+                        <span class="text-headline-lg font-bold text-primary uppercase tracking-tight leading-tight"><?php echo esc_html( $faq['q'] ); ?></span>
+                    </span>
+                    <span class="bl-faq-icon text-headline-lg font-black text-primary transition-transform duration-300 shrink-0" aria-hidden="true">+</span>
+                </button>
+
+                <div id="bl-faq-panel-<?php echo (int) $i; ?>" class="bl-faq-panel" hidden>
+                    <div class="relative overflow-hidden border border-white/10 mb-10">
+                        <img
+                            src="<?php echo esc_url( BANGLA_LED_DEFAULT_HERO ); ?>"
+                            alt=""
+                            class="absolute inset-0 w-full h-full object-cover grayscale blur-md scale-110 opacity-40"
+                            loading="lazy"
+                            aria-hidden="true"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/30" aria-hidden="true"></div>
+                        <div class="relative z-10 p-8 md:p-14 grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+                            <p class="md:col-span-8 text-body-lg text-on-surface-variant m-0">
+                                <?php echo esc_html( $faq['a'] ); ?>
+                            </p>
+                            <div class="md:col-span-4 flex md:justify-end">
+                                <a class="glass-button px-8 py-4 text-label-caps uppercase tracking-widest no-underline inline-flex items-center gap-2 group" href="<?php echo esc_url( home_url( '/' . $faq['slug'] . '/' ) ); ?>">
+                                    <?php esc_html_e( 'Read The Full Answer', 'bangla-led' ); ?>
+                                    <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</section>
+
 <!-- Lead capture -->
 <section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative border-t border-white/10" id="booking">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
         <div>
             <span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6">
-                <?php esc_html_e( '05 &mdash; Access', 'bangla-led' ); ?>
+                <?php esc_html_e( '06 &mdash; Access', 'bangla-led' ); ?>
             </span>
             <h2 class="text-display-lg-mobile md:text-display-lg font-black text-primary uppercase mb-6">
                 <?php esc_html_e( 'Join The Exclusive List', 'bangla-led' ); ?>
