@@ -14,14 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BANGLA_LED_VERSION', '1.1.1' );
+define( 'BANGLA_LED_VERSION', '1.2.0' );
 
 require_once get_template_directory() . '/inc/demo-articles.php';
 
 /**
  * Default cinematic imagery (used when no featured image is set).
+ *
+ * Local assets — the previous remote CDN placeholder could fail to load,
+ * leaving grey cards and a blank hero (flagged in CRO review).
  */
-define( 'BANGLA_LED_DEFAULT_HERO', 'https://lh3.googleusercontent.com/aida-public/AB6AXuCTljPfboRqYk-g1iMSziUtjUlj1FffTbsRdMeiybvTZ-RTlMXaHyUV2G_AFpHrIBpe5od4AFwI76b-XLe8JmyoM0GcutFpJ5VE9lkDx0hCyAY4a3OtFoTIE1P6wNSyOIZ2eHIbKcLJp6CfKqeyOhSWNNBaVHBOzaQXI70WYJ3Vgd1hWaNPU85YGyce0OHPYnmbfVbEtf7xq8wxkKH7nPpPsey7-O33UOkzTz8c3Ugpk5iMOyeD4AfcjcnLB84dj62ySW7K9KsoHaXD' );
+define( 'BANGLA_LED_DEFAULT_HERO', get_template_directory_uri() . '/assets/img/network-1.jpg' );
+define( 'BANGLA_LED_DEFAULT_HERO_ALT', get_template_directory_uri() . '/assets/img/network-2.jpg' );
 define( 'BANGLA_LED_DEFAULT_MAP', 'https://lh3.googleusercontent.com/aida-public/AB6AXuBoXX0_leU3d_VBMuBqk-vm83tN_DLfBMJgiuSOIMHmaQQK41NqioDptAlS4ZCXnQq4exw5Ul-Q2VyHLIUYDlM2KIdxlJ-e6-tu1ezjc9FE7neEfHIvk_lh35ncsqY9ne3pSkLZepHlUxNG84NXzILSj5hZf8CwqqlReN_a9OcjL1SkDtQjbGMm4TtfFzIY0m1N0EiiOQY-63Ux9u8aT0mThqXAjbPgF3PtF_x7G61za-WRTauyTtCBGybGt_JQYDF7CVk3saCcMp1M' );
 
 /* -------------------------------------------------------------------------
@@ -466,6 +470,17 @@ function bangla_led_meta_description() {
 	}
 	return get_bloginfo( 'description' );
 }
+
+/**
+ * Keyword-led front-page title tag (CRO/SEO review recommendation).
+ */
+function bangla_led_front_page_title( $title ) {
+	if ( is_front_page() ) {
+		return __( 'LED Billboard Advertising in Dhaka & Bangladesh | Bangla LED', 'bangla-led' );
+	}
+	return $title;
+}
+add_filter( 'pre_get_document_title', 'bangla_led_front_page_title' );
 
 function bangla_led_head_seo() {
 	$description = bangla_led_meta_description();

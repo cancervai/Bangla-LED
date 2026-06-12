@@ -69,6 +69,28 @@
 			} );
 		} );
 
+		/* Sticky mobile CTA — show after the hero, hide while the booking form is on screen. */
+		var stickyCta = document.getElementById( 'bl-sticky-cta' );
+		if ( stickyCta ) {
+			var bookingSection = document.getElementById( 'booking' );
+			var bookingVisible = false;
+
+			var updateStickyCta = function () {
+				var pastHero = window.scrollY > window.innerHeight * 0.8;
+				stickyCta.hidden = ! pastHero || bookingVisible;
+			};
+
+			if ( bookingSection && 'IntersectionObserver' in window ) {
+				new IntersectionObserver( function ( entries ) {
+					bookingVisible = entries[ 0 ].isIntersecting;
+					updateStickyCta();
+				} ).observe( bookingSection );
+			}
+
+			window.addEventListener( 'scroll', updateStickyCta, { passive: true } );
+			updateStickyCta();
+		}
+
 		/* If a lead was just submitted, bring the confirmation into view. */
 		if ( window.location.search.indexOf( 'lead=success' ) !== -1 ) {
 			var booking = document.getElementById( 'booking' );

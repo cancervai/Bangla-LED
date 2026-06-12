@@ -19,8 +19,8 @@ $hero_image = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), '
         <div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/30 z-10"></div>
         <img
             src="<?php echo esc_url( $hero_image ); ?>"
-            alt="<?php esc_attr_e( 'A cinematic night view of a Bangla LED digital billboard dominating a Dhaka intersection', 'bangla-led' ); ?>"
-            class="w-full h-full object-cover object-center grayscale opacity-60"
+            alt="<?php esc_attr_e( 'A live Bangla LED digital billboard cluster glowing over a busy Dhaka intersection at night', 'bangla-led' ); ?>"
+            class="w-full h-full object-cover object-center opacity-70"
             fetchpriority="high"
         />
     </div>
@@ -28,23 +28,46 @@ $hero_image = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), '
     <div class="container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max relative z-20 flex flex-col items-start w-full">
         <div class="max-w-4xl">
             <span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6">
-                <?php esc_html_e( 'Premium DOOH Network &middot; Bangladesh', 'bangla-led' ); ?>
+                <?php esc_html_e( 'Premium LED Billboard Advertising &middot; Bangladesh', 'bangla-led' ); ?>
             </span>
             <h1 class="text-display-lg-mobile md:text-display-lg font-black text-primary uppercase mb-8">
                 <?php esc_html_e( 'Dominate Dhaka\'s Digital Airspace', 'bangla-led' ); ?>
             </h1>
             <p class="text-body-lg text-on-surface-variant max-w-2xl mb-12 border-l border-white/20 pl-6">
-                <?php esc_html_e( 'Bangla LED operates the country\'s most valuable digital media placements — cinema-grade screens positioned where Bangladesh\'s wealth, influence, and decision-making power moves every single day.', 'bangla-led' ); ?>
+                <?php esc_html_e( 'Cinema-grade LED billboards at Gulshan, Banani, Dhanmondi, Uttara, and 30+ more corridors across 10 cities — the screens Bangladesh\'s biggest brands book first. Rates, availability, and audience data delivered within one business day.', 'bangla-led' ); ?>
             </p>
             <div class="flex flex-wrap gap-4">
                 <a class="inline-flex items-center justify-center glass-button px-8 py-4 text-label-caps uppercase text-primary tracking-widest gap-2 group no-underline" href="#booking">
-                    <?php esc_html_e( 'Check Availability &amp; Pricing', 'bangla-led' ); ?>
+                    <?php esc_html_e( 'Get Availability &amp; Pricing', 'bangla-led' ); ?>
                     <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
                 </a>
                 <a class="inline-flex items-center justify-center px-8 py-4 text-label-caps uppercase text-on-surface-variant hover:text-primary tracking-widest transition-colors no-underline" href="<?php echo esc_url( get_post_type_archive_link( 'location' ) ); ?>">
-                    <?php esc_html_e( 'Explore The Network', 'bangla-led' ); ?>
+                    <?php esc_html_e( 'View Billboard Locations', 'bangla-led' ); ?>
                 </a>
             </div>
+
+            <!-- Above-the-fold proof strip (CRO: trust signals near the hero) -->
+            <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-3xl border-t border-white/15 pt-8">
+                <div>
+                    <div class="text-headline-lg font-black text-primary tracking-tight">59</div>
+                    <div class="text-mono-label uppercase tracking-widest text-on-surface-variant"><?php esc_html_e( 'Premium Screens', 'bangla-led' ); ?></div>
+                </div>
+                <div>
+                    <div class="text-headline-lg font-black text-primary tracking-tight">10</div>
+                    <div class="text-mono-label uppercase tracking-widest text-on-surface-variant"><?php esc_html_e( 'Cities Covered', 'bangla-led' ); ?></div>
+                </div>
+                <div>
+                    <div class="text-headline-lg font-black text-primary tracking-tight">750K+</div>
+                    <div class="text-mono-label uppercase tracking-widest text-on-surface-variant"><?php esc_html_e( 'Daily Impressions', 'bangla-led' ); ?></div>
+                </div>
+                <div>
+                    <div class="text-headline-lg font-black text-primary tracking-tight">&lt; 24h</div>
+                    <div class="text-mono-label uppercase tracking-widest text-on-surface-variant"><?php esc_html_e( 'Quote Response', 'bangla-led' ); ?></div>
+                </div>
+            </div>
+            <p class="mt-6 text-mono-label uppercase tracking-widest text-white/70">
+                <?php esc_html_e( 'Trusted by Premier Bank &middot; Grameen Telecom &middot; City Group &middot; Square &middot; PRAN-RFL', 'bangla-led' ); ?>
+            </p>
         </div>
     </div>
 </section>
@@ -216,6 +239,10 @@ $more_locations = new WP_Query( array(
                     </p>
                 </div>
             </div>
+            <a class="inline-flex items-center justify-center glass-button self-start px-8 py-4 text-label-caps uppercase tracking-widest gap-2 group no-underline" href="#booking">
+                <?php esc_html_e( 'Get The Audience File & Rates', 'bangla-led' ); ?>
+                <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
+            </a>
         </div>
     </div>
 </section>
@@ -286,12 +313,19 @@ $campaigns = new WP_Query( array(
                 for ( $pass = 0; $pass < 2; $pass++ ) :
                     foreach ( $marquee_clients as $client_name ) :
                         ?>
-                        <span class="text-headline-lg font-black uppercase tracking-tighter text-white/30 whitespace-nowrap px-6"><?php echo esc_html( $client_name ); ?></span>
+                        <span class="text-headline-lg font-black uppercase tracking-tighter text-white/80 whitespace-nowrap px-6"><?php echo esc_html( $client_name ); ?></span>
                     <?php endforeach;
                 endfor;
                 ?>
             </div>
         </div>
+    </div>
+
+    <div class="mt-12 text-center">
+        <a class="inline-flex items-center justify-center glass-button px-8 py-4 text-label-caps uppercase tracking-widest gap-2 group no-underline" href="#booking">
+            <?php esc_html_e( 'Run Your Campaign Here', 'bangla-led' ); ?>
+            <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
+        </a>
     </div>
 </section>
 
@@ -375,17 +409,29 @@ $campaigns = new WP_Query( array(
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
         <div>
             <span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6">
-                <?php esc_html_e( '06 &mdash; Access', 'bangla-led' ); ?>
+                <?php esc_html_e( '06 &mdash; Rates &amp; Availability', 'bangla-led' ); ?>
             </span>
             <h2 class="text-display-lg-mobile md:text-display-lg font-black text-primary uppercase mb-6">
-                <?php esc_html_e( 'Join The Exclusive List', 'bangla-led' ); ?>
+                <?php esc_html_e( 'Request Rates &amp; Availability', 'bangla-led' ); ?>
             </h2>
-            <p class="text-body-lg text-on-surface-variant max-w-md">
-                <?php esc_html_e( 'Premium placements sell by the quarter and rarely return to market. Submit your details to receive the network media kit, availability calendar, and current rate structure before they are publicly listed.', 'bangla-led' ); ?>
+            <p class="text-body-lg text-on-surface-variant max-w-md mb-8">
+                <?php esc_html_e( 'Tell us who you are and when you want to be on air. Within one business day you\'ll receive placement-level rates, the availability calendar, and the full audience file for every screen on your shortlist.', 'bangla-led' ); ?>
             </p>
+            <ul class="flex flex-col gap-3 list-none p-0 m-0 text-mono-label uppercase tracking-widest text-on-surface-variant max-w-md">
+                <li class="flex items-center gap-3"><span class="text-primary" aria-hidden="true">&#10003;</span> <?php esc_html_e( 'Placement-level rate card &mdash; no public pricing games', 'bangla-led' ); ?></li>
+                <li class="flex items-center gap-3"><span class="text-primary" aria-hidden="true">&#10003;</span> <?php esc_html_e( 'Live availability calendar by quarter', 'bangla-led' ); ?></li>
+                <li class="flex items-center gap-3"><span class="text-primary" aria-hidden="true">&#10003;</span> <?php esc_html_e( 'Just researching? The same form gets you the 2026 media kit', 'bangla-led' ); ?></li>
+            </ul>
         </div>
-        <?php get_template_part( 'template-parts/lead-form', null, array( 'button_text' => __( 'Request Media Kit', 'bangla-led' ) ) ); ?>
+        <?php get_template_part( 'template-parts/lead-form', null, array( 'button_text' => __( 'Get Rates & Availability', 'bangla-led' ) ) ); ?>
     </div>
 </section>
+
+<!-- Sticky mobile CTA (CRO: never lose the action while scrolling) -->
+<div id="bl-sticky-cta" class="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-black/80 border-t border-white/15" style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);" hidden>
+    <a class="glass-button flex items-center justify-center w-full py-4 text-label-caps uppercase tracking-widest gap-2 no-underline" href="#booking">
+        <?php esc_html_e( 'Get Availability &amp; Pricing', 'bangla-led' ); ?> <span aria-hidden="true">&rarr;</span>
+    </a>
+</div>
 
 <?php get_footer(); ?>

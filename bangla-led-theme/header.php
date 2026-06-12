@@ -182,7 +182,7 @@
 
     <div class="flex items-center gap-4">
         <a class="hidden md:inline-block glass-button px-6 py-3 text-label-caps uppercase text-primary tracking-widest no-underline" href="<?php echo esc_url( is_singular( 'location' ) ? '#booking' : home_url( '/#booking' ) ); ?>">
-            <?php esc_html_e( 'BOOK NOW', 'bangla-led' ); ?>
+            <?php esc_html_e( 'GET PRICING', 'bangla-led' ); ?>
         </a>
 
         <button id="bl-menu-toggle" class="md:hidden glass-button p-3 text-primary" aria-expanded="false" aria-controls="bl-mobile-menu" aria-label="<?php esc_attr_e( 'Toggle menu', 'bangla-led' ); ?>">
@@ -212,7 +212,7 @@
         ?>
         <a class="block py-4 text-on-surface-variant hover:text-primary border-b border-white/10 no-underline" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a>
     <?php endforeach; ?>
-    <a class="glass-button block text-center px-6 py-4 mt-4 text-primary tracking-widest no-underline" href="<?php echo esc_url( home_url( '/#booking' ) ); ?>"><?php esc_html_e( 'BOOK NOW', 'bangla-led' ); ?></a>
+    <a class="glass-button block text-center px-6 py-4 mt-4 text-primary tracking-widest no-underline" href="<?php echo esc_url( home_url( '/#booking' ) ); ?>"><?php esc_html_e( 'GET PRICING', 'bangla-led' ); ?></a>
 </div>
 
 <main id="main">

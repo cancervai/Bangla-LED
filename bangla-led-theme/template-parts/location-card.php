@@ -11,14 +11,16 @@ $demographic  = bangla_led_meta( $location_id, '_bl_demographic', 'Affluent Urba
 $dimensions   = bangla_led_meta( $location_id, '_bl_dimensions', "30' x 15'" );
 $hoods        = get_the_terms( $location_id, 'neighborhood' );
 $hood_name    = ( $hoods && ! is_wp_error( $hoods ) ) ? $hoods[0]->name : '';
-$card_image   = has_post_thumbnail() ? get_the_post_thumbnail_url( $location_id, 'bangla-led-card' ) : BANGLA_LED_DEFAULT_HERO;
+/* Alternate the two live network photos so fallback cards read as real inventory, not placeholders. */
+$card_fallback = ( $location_id % 2 ) ? BANGLA_LED_DEFAULT_HERO : BANGLA_LED_DEFAULT_HERO_ALT;
+$card_image    = has_post_thumbnail() ? get_the_post_thumbnail_url( $location_id, 'bangla-led-card' ) : $card_fallback;
 ?>
 <article class="group relative border border-white/10 hover:border-white/40 transition-colors duration-500 flex flex-col">
     <a href="<?php the_permalink(); ?>" class="block relative aspect-[4/5] overflow-hidden no-underline">
         <img
             src="<?php echo esc_url( $card_image ); ?>"
             alt="<?php echo esc_attr( sprintf( /* translators: %s: location title. */ __( 'Digital billboard placement at %s', 'bangla-led' ), get_the_title() ) ); ?>"
-            class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700"
+            class="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
             loading="lazy"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
