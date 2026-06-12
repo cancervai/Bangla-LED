@@ -92,15 +92,17 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .glass-button {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(217, 4, 41, 0.92);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: border-color 0.3s ease, background 0.3s ease;
+        border: 1px solid rgba(255, 64, 87, 0.6);
+        color: #ffffff !important;
+        transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     }
     .glass-button:hover {
-        border-color: rgba(255, 255, 255, 1);
-        background: rgba(255, 255, 255, 0.15);
+        border-color: #ffffff;
+        background: #e50914;
+        box-shadow: 0 0 24px rgba(229, 9, 20, 0.45);
     }
     .input-glass {
         background: transparent;

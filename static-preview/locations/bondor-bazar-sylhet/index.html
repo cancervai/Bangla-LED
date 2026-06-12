@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en-US" class="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        corePlugins: { preflight: true },
+        theme: {
+            extend: {
+                "colors": {
+                    "surface-variant": "#353434",
+                    "outline": "#8e9192",
+                    "surface-bright": "#3a3939",
+                    "on-background": "#e5e2e1",
+                    "primary-container": "#e2e2e2",
+                    "surface-container-highest": "#353434",
+                    "on-primary-container": "#636565",
+                    "secondary": "#c6c6c6",
+                    "surface-dim": "#141313",
+                    "on-surface": "#e5e2e1",
+                    "surface-tint": "#c6c6c7",
+                    "on-secondary": "#303030",
+                    "on-primary": "#2f3131",
+                    "surface-container-low": "#1c1b1b",
+                    "secondary-container": "#474747",
+                    "surface-container-high": "#2a2a2a",
+                    "on-surface-variant": "#c4c7c8",
+                    "primary": "#ffffff",
+                    "outline-variant": "#444748",
+                    "surface": "#141313",
+                    "on-secondary-container": "#b5b5b5",
+                    "inverse-surface": "#e5e2e1",
+                    "tertiary": "#ffffff",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-container": "#201f1f",
+                    "background": "#000000",
+                    "inverse-on-surface": "#313030"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0",
+                    "lg": "0",
+                    "xl": "0",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "unit": "8px",
+                    "section-gap": "160px",
+                    "section-gap-mobile": "96px",
+                    "margin-desktop": "80px",
+                    "gutter": "32px",
+                    "margin-mobile": "24px",
+                    "container-max": "1440px"
+                },
+                "fontFamily": {
+                    "sans": ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+                },
+                "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+                    "mono-label": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "700"}]
+                }
+            }
+        }
+    }
+</script>
+<style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #141313; }
+    ::-webkit-scrollbar-thumb { background: #3a3939; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #636565; }
+
+    /* Glassmorphism utilities — duplicated inline for instant first paint */
+    .glass-panel {
+        background: rgba(20, 19, 19, 0.4);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-button {
+        background: rgba(217, 4, 41, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 64, 87, 0.6);
+        color: #ffffff !important;
+        transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-button:hover {
+        border-color: #ffffff;
+        background: #e50914;
+        box-shadow: 0 0 24px rgba(229, 9, 20, 0.45);
+    }
+    .input-glass {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 0;
+        transition: all 0.3s ease;
+    }
+    .input-glass:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .chip {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: transparent;
+    }
+</style>
+<title>Bondor Bazar, Sylhet &#8211; Bangla LED</title>
+<meta name='robots' content='max-image-preview:large' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
+<link href='https://fonts.googleapis.com' rel='preconnect' />
+<link href='https://fonts.gstatic.com' crossorigin='anonymous' rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="Bangla LED &raquo; Feed" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Bangla LED &raquo; Comments Feed" href="../../comments/feed/index.html" />
+<meta name="description" content="Bondor Bazar, Sylhet — a premium digital media placement on the Bangla LED network. 115,000+ daily impressions reaching High-Remittance Households. Request the media kit and current availability." />
+<meta property="og:site_name" content="Bangla LED" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Bondor Bazar, Sylhet &#8211; Bangla LED" />
+<meta property="og:description" content="Bondor Bazar, Sylhet — a premium digital media placement on the Bangla LED network. 115,000+ daily impressions reaching High-Remittance Households. Request the media kit and current availability." />
+<meta property="og:image" content="https://lh3.googleusercontent.com/aida-public/AB6AXuCTljPfboRqYk-g1iMSziUtjUlj1FffTbsRdMeiybvTZ-RTlMXaHyUV2G_AFpHrIBpe5od4AFwI76b-XLe8JmyoM0GcutFpJ5VE9lkDx0hCyAY4a3OtFoTIE1P6wNSyOIZ2eHIbKcLJp6CfKqeyOhSWNNBaVHBOzaQXI70WYJ3Vgd1hWaNPU85YGyce0OHPYnmbfVbEtf7xq8wxkKH7nPpPsey7-O33UOkzTz8c3Ugpk5iMOyeD4AfcjcnLB84dj62ySW7K9KsoHaXD" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#000000" />
+<script>
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"\/wp\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.2"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+</script>
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='/Bangla-LED/wp/wp-includes/css/dist/block-library/style.min.css?ver=6.7.2' media='all' />
+<style id='classic-theme-styles-inline-css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='bangla-led-inter-css' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&#038;display=swap' media='all' />
+<link rel='stylesheet' id='bangla-led-style-css' href='/Bangla-LED/wp/wp-content/themes/bangla-led-theme/style.css?ver=1.0.0' media='all' />
+<link rel="https://api.w.org/" href="../../wp-json/index.html" /><link rel="alternate" title="JSON" type="application/json" href="../../wp-json/wp/v2/location/27" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="/Bangla-LED/wp/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.7.2" />
+<link rel="canonical" href="../../index.html@p=27.html" />
+<link rel='shortlink' href='../../index.html@p=27.html' />
+
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Bangla LED","url":"/","description":"Premium cinema-grade digital out-of-home (DOOH) advertising network in Bangladesh.","areaServed":{"@type":"Country","name":"Bangladesh"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Place","name":"Bondor Bazar, Sylhet","url":"/locations/bondor-bazar-sylhet/","description":"Bondor Bazar, Sylhet \u2014 a premium digital media placement on the Bangla LED network. 115,000+ daily impressions reaching High-Remittance Households. Request the media kit and current availability.","address":{"@type":"PostalAddress","addressLocality":"Sylhet","addressCountry":"BD"},"geo":{"@type":"GeoCoordinates","latitude":"24.8949","longitude":"91.8687"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Locations","item":"/locations/"},{"@type":"ListItem","position":2,"name":"Sylhet","item":"/billboards/sylhet/"},{"@type":"ListItem","position":3,"name":"Bondor Bazar, Sylhet","item":"/locations/bondor-bazar-sylhet/"}]}</script>
+</head>
+<body class="location-template-default single single-location postid-27 wp-embed-responsive bg-background text-on-background antialiased font-sans selection:bg-primary selection:text-surface overflow-x-hidden">
+
+<a class="screen-reader-text" href="../../index.html@p=27.html#main">Skip to content</a>
+
+<!-- TopNavBar -->
+<nav class="glass-nav fixed top-0 w-full z-50 backdrop-blur-xl border-b border-white/10 flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop" aria-label="Primary">
+    <a href="../../index.html" class="text-headline-lg md:text-headline-xl font-black tracking-tighter text-primary uppercase no-underline" rel="home">
+        Bangla LED    </a>
+
+    <div class="hidden md:flex gap-gutter items-center text-label-caps uppercase">
+                        <a class="text-on-surface-variant hover:text-primary transition-colors duration-300 no-underline" href="../index.html">Locations</a>
+                            <a class="text-on-surface-variant hover:text-primary transition-colors duration-300 no-underline" href="../../index.html#network">Networks</a>
+                            <a class="text-on-surface-variant hover:text-primary transition-colors duration-300 no-underline" href="../../campaigns/index.html">Campaigns</a>
+                            <a class="text-on-surface-variant hover:text-primary transition-colors duration-300 no-underline" href="../../index.html#booking">Contact</a>
+                </div>
+
+    <div class="flex items-center gap-4">
+        <a class="hidden md:inline-block glass-button px-6 py-3 text-label-caps uppercase text-primary tracking-widest no-underline" href="../../index.html@p=27.html#booking">
+            BOOK NOW        </a>
+
+        <button id="bl-menu-toggle" class="md:hidden glass-button p-3 text-primary" aria-expanded="false" aria-controls="bl-mobile-menu" aria-label="Toggle menu">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="20" height="2" fill="currentColor"/>
+                <rect y="6" width="20" height="2" fill="currentColor"/>
+                <rect y="12" width="20" height="2" fill="currentColor"/>
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile menu -->
+<div id="bl-mobile-menu" class="mobile-menu fixed top-20 inset-x-0 z-40 flex-col gap-6 px-margin-mobile py-10 text-label-caps uppercase md:hidden" hidden>
+            <a class="block py-4 text-on-surface-variant hover:text-primary border-b border-white/10 no-underline" href="../index.html">Locations</a>
+            <a class="block py-4 text-on-surface-variant hover:text-primary border-b border-white/10 no-underline" href="../../index.html#network">Networks</a>
+            <a class="block py-4 text-on-surface-variant hover:text-primary border-b border-white/10 no-underline" href="../../campaigns/index.html">Campaigns</a>
+            <a class="block py-4 text-on-surface-variant hover:text-primary border-b border-white/10 no-underline" href="../../index.html#booking">Contact</a>
+        <a class="glass-button block text-center px-6 py-4 mt-4 text-primary tracking-widest no-underline" href="../../index.html#booking">BOOK NOW</a>
+</div>
+
+<main id="main">
+
+	<!-- Hero -->
+	<section class="relative min-h-screen flex items-center pt-20">
+		<div class="absolute inset-0 z-0">
+			<div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/30 z-10"></div>
+			<img
+				src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTljPfboRqYk-g1iMSziUtjUlj1FffTbsRdMeiybvTZ-RTlMXaHyUV2G_AFpHrIBpe5od4AFwI76b-XLe8JmyoM0GcutFpJ5VE9lkDx0hCyAY4a3OtFoTIE1P6wNSyOIZ2eHIbKcLJp6CfKqeyOhSWNNBaVHBOzaQXI70WYJ3Vgd1hWaNPU85YGyce0OHPYnmbfVbEtf7xq8wxkKH7nPpPsey7-O33UOkzTz8c3Ugpk5iMOyeD4AfcjcnLB84dj62ySW7K9KsoHaXD"
+				alt="Digital billboard at Bondor Bazar, Sylhet"
+				class="w-full h-full object-cover object-center grayscale opacity-60"
+				fetchpriority="high"
+			/>
+		</div>
+
+		<div class="container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max relative z-20 flex flex-col items-start w-full">
+			<div class="max-w-4xl">
+				<span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6">
+					Premium DOOH Network in Sylhet				</span>
+				<h1 class="text-display-lg-mobile md:text-display-lg font-black text-primary uppercase mb-8">
+					Digital Billboard Advertising at Bondor Bazar, Sylhet				</h1>
+				<p class="text-body-lg text-on-surface-variant max-w-2xl mb-12 border-l border-white/20 pl-6">
+					Command the attention of High-Remittance Households with 115,000+ daily views in the heart of Bondor Bazar.				</p>
+				<a class="inline-flex items-center justify-center glass-button px-8 py-4 text-label-caps uppercase text-primary tracking-widest gap-2 group no-underline" href="../../index.html@p=27.html#booking">
+					Check Availability &amp; Pricing					<span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Location context + map -->
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+			<div class="md:col-span-5 flex flex-col gap-8">
+				<h2 class="text-headline-xl font-bold text-primary uppercase tracking-tight">
+					Dominate Bondor Bazar				</h2>
+
+				<div class="entry-content text-body-md text-on-surface-variant">
+					<p>Bondor Bazar concentrates everything that makes Sylhet a unique market: one of the highest remittance inflows in the country, a constant churn of domestic and expatriate visitors, and a retail district that has anchored the city for a century.</p>
+<p>Banks, mobile financial services, airlines, and property developers prize this screen because Sylhet&#8217;s purchasing power consistently outperforms its size — and this is the square where that power walks.</p>
+				</div>
+
+				<div class="flex flex-wrap gap-4 mt-4">
+					<span class="chip px-3 py-2 text-mono-label uppercase text-primary tracking-widest">115,000+ Daily Views</span>
+					<span class="chip px-3 py-2 text-mono-label uppercase text-primary tracking-widest">Historic Commercial Square</span>
+				</div>
+			</div>
+
+			<div class="md:col-span-7 relative h-[420px] md:h-[600px] bg-surface-variant w-full overflow-hidden grayscale contrast-125 border border-white/10">
+									<img
+						src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoXX0_leU3d_VBMuBqk-vm83tN_DLfBMJgiuSOIMHmaQQK41NqioDptAlS4ZCXnQq4exw5Ul-Q2VyHLIUYDlM2KIdxlJ-e6-tu1ezjc9FE7neEfHIvk_lh35ncsqY9ne3pSkLZepHlUxNG84NXzILSj5hZf8CwqqlReN_a9OcjL1SkDtQjbGMm4TtfFzIY0m1N0EiiOQY-63Ux9u8aT0mThqXAjbPgF3PtF_x7G61za-WRTauyTtCBGybGt_JQYDF7CVk3saCcMp1M"
+						alt="Stylized map of Bondor Bazar"
+						class="absolute inset-0 w-full h-full object-cover opacity-50"
+						loading="lazy"
+					/>
+					<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full map-pin" aria-hidden="true"></div>
+							</div>
+		</div>
+	</section>
+
+	<!-- Audience intelligence + tech specs -->
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter md:gap-section-gap">
+			<div class="flex flex-col gap-12 border-l border-white/10 pl-8 md:pl-gutter">
+				<h3 class="text-headline-lg font-bold text-primary uppercase">Audience Intelligence</h3>
+				<div class="grid grid-cols-1 gap-8">
+					<div class="border-b border-white/10 pb-6">
+						<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-2">Daily Impressions</div>
+						<div class="text-headline-xl font-bold text-primary tracking-tight">115,000+</div>
+					</div>
+					<div class="border-b border-white/10 pb-6">
+						<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-2">Core Demographic</div>
+						<div class="text-headline-xl font-bold text-primary tracking-tight">High-Remittance Households</div>
+					</div>
+					<div class="border-b border-white/10 pb-6">
+						<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-2">Average Dwell Time</div>
+						<div class="text-headline-xl font-bold text-primary tracking-tight">60+ seconds</div>
+					</div>
+					<div class="pb-6">
+						<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-2">Peak Hours</div>
+						<div class="text-headline-xl font-bold text-primary tracking-tight">10:00–13:00 / 16:00–21:00</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="glass-panel p-8 md:p-16 flex flex-col justify-between">
+				<div>
+					<h3 class="text-headline-lg font-bold text-primary uppercase mb-4">Cinema Grade Fidelity</h3>
+					<p class="text-body-md text-on-surface-variant mb-12">Engineered for absolute visual supremacy.</p>
+				</div>
+				<ul class="flex flex-col gap-6 list-none p-0 m-0">
+					<li class="flex justify-between items-center border-b border-white/10 pb-4">
+						<span class="text-mono-label uppercase text-on-surface-variant tracking-widest">Dimensions</span>
+						<span class="text-label-caps uppercase text-primary tracking-widest">15&#039; x 10&#039;</span>
+					</li>
+					<li class="flex justify-between items-center border-b border-white/10 pb-4">
+						<span class="text-mono-label uppercase text-on-surface-variant tracking-widest">Resolution</span>
+						<span class="text-label-caps uppercase text-primary tracking-widest">P6 Outdoor</span>
+					</li>
+					<li class="flex justify-between items-center border-b border-white/10 pb-4">
+						<span class="text-mono-label uppercase text-on-surface-variant tracking-widest">Brightness</span>
+						<span class="text-label-caps uppercase text-primary tracking-widest">5,000 nits</span>
+					</li>
+					<li class="flex justify-between items-center border-b border-white/10 pb-4">
+						<span class="text-mono-label uppercase text-on-surface-variant tracking-widest">Format</span>
+						<span class="text-label-caps uppercase text-primary tracking-widest">MP4 / HTML5</span>
+					</li>
+					<li class="flex justify-between items-center pb-2">
+						<span class="text-mono-label uppercase text-on-surface-variant tracking-widest">Operating Hours</span>
+						<span class="text-label-caps uppercase text-primary tracking-widest">12h Daily</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- Traffic & audience profile -->
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
+		<div class="max-w-3xl mb-16">
+			<span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6">
+				Verified Audience Data			</span>
+			<h2 class="text-headline-xl md:text-display-lg-mobile font-black text-primary uppercase tracking-tight mb-6">
+				Who Actually Sees This Screen			</h2>
+			<p class="text-body-lg text-on-surface-variant">
+				We don&#039;t sell guesses. Every figure below is built from municipal traffic counts, signal-cycle timing, and on-ground audits — the same numbers we stand behind in your post-campaign log reports.			</p>
+		</div>
+
+		<div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-white/10 border border-white/10">
+			<div class="bg-background p-8 md:p-10">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Daily Traffic</div>
+				<div class="text-headline-xl font-black text-primary tracking-tight">115,000+</div>
+			</div>
+			<div class="bg-background p-8 md:p-10">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Total Monthly Traffic</div>
+				<div class="text-headline-xl font-black text-primary tracking-tight">3.45M+ / month</div>
+			</div>
+			<div class="bg-background p-8 md:p-10">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Gender Split</div>
+				<div class="text-headline-lg font-bold text-primary tracking-tight">62% Male / 38% Female</div>
+			</div>
+			<div class="bg-background p-8 md:p-10">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Age Profile</div>
+				<div class="text-headline-lg font-bold text-primary tracking-tight">18–44 core (65%)</div>
+			</div>
+			<div class="bg-background p-8 md:p-10">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Dominant Professions</div>
+				<div class="text-headline-lg font-bold text-primary tracking-tight">Remittance Families, Traders, Visitors</div>
+			</div>
+			<div class="bg-background p-8 md:p-10">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Average Dwell</div>
+				<div class="text-headline-lg font-bold text-primary tracking-tight">60+ seconds</div>
+			</div>
+		</div>
+
+		<!-- Exposure estimation -->
+		<div class="glass-panel mt-gutter p-8 md:p-16 grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+			<div class="md:col-span-5">
+				<div class="text-mono-label uppercase text-on-surface-variant tracking-widest mb-3">Exposure Estimation</div>
+				<div class="text-display-lg-mobile font-black text-primary uppercase tracking-tight leading-none">5–7 plays / stop</div>
+			</div>
+			<div class="md:col-span-7 text-body-md text-on-surface-variant">
+				<p class="m-0">
+					Here&#039;s the math that matters: during peak windows (10:00–13:00 / 16:00–21:00), the signal cycle holds vehicles in the screen&#039;s sightline for 60+ seconds. A 10-second creative completes multiple full plays per stop — not a glance, a viewing. Multiply that by every signal cycle, every day of your flight, and you get frequency that digital ads can&#039;t buy and static billboards can&#039;t prove.				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Why this location -->
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter md:gap-section-gap">
+			<div class="flex flex-col gap-10">
+				<h2 class="text-headline-xl font-black text-primary uppercase tracking-tight">
+					Why Bondor Bazar Works				</h2>
+				<ul class="flex flex-col gap-6 list-none p-0 m-0">
+										<li class="border-l border-white/20 pl-6">
+						<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Unobstructed Sightline</div>
+						<p class="text-body-md text-on-surface-variant m-0">
+							The screen faces Zinda Bazar &amp; Court Point Axis — traffic sees it long before the stop line, and nothing stands in the way.						</p>
+					</li>
+										<li class="border-l border-white/20 pl-6">
+						<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Captive Dwell, By Design</div>
+						<p class="text-body-md text-on-surface-variant m-0">Historic Commercial Square — the signal does the work. Your audience is stationary, facing forward, with nothing else to look at.</p>
+					</li>
+					<li class="border-l border-white/20 pl-6">
+						<div class="text-label-caps uppercase text-primary tracking-widest mb-2">The Right Wallets</div>
+						<p class="text-body-md text-on-surface-variant m-0">
+							Remittance Families, Traders, Visitors dominate this corridor. If your brand needs Bondor Bazar&#039;s decision-makers, this is where they physically are — twice a day, every working day.						</p>
+					</li>
+					<li class="border-l border-white/20 pl-6">
+						<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Cinema-Grade Output</div>
+						<p class="text-body-md text-on-surface-variant m-0">
+							P6 Outdoor panel at 5,000 nits — your creative stays vivid at high noon and dominant after dark, 12h Daily.						</p>
+					</li>
+				</ul>
+			</div>
+
+			<!-- What to expect -->
+			<div class="glass-panel p-8 md:p-16 flex flex-col gap-10">
+				<h2 class="text-headline-lg font-bold text-primary uppercase tracking-tight m-0">What To Expect</h2>
+				<ol class="flex flex-col gap-8 list-none p-0 m-0">
+					<li class="flex gap-6">
+						<span class="text-headline-xl font-black text-white/20 leading-none">01</span>
+						<div>
+							<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Media Kit Within 24 Hours</div>
+							<p class="text-body-md text-on-surface-variant m-0">Full specs, audience data, availability calendar, and the current rate structure for this exact placement.</p>
+						</div>
+					</li>
+					<li class="flex gap-6">
+						<span class="text-headline-xl font-black text-white/20 leading-none">02</span>
+						<div>
+							<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Dates Held, Creative Checked</div>
+							<p class="text-body-md text-on-surface-variant m-0">We hold your flight dates while our team QCs your MP4/HTML5 creative against the panel&#039;s exact pixel map — free.</p>
+						</div>
+					</li>
+					<li class="flex gap-6">
+						<span class="text-headline-xl font-black text-white/20 leading-none">03</span>
+						<div>
+							<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Live On Schedule</div>
+							<p class="text-body-md text-on-surface-variant m-0">Your campaign starts on the agreed date, at the agreed loop frequency. No bumping, no quiet downgrades.</p>
+						</div>
+					</li>
+					<li class="flex gap-6">
+						<span class="text-headline-xl font-black text-white/20 leading-none">04</span>
+						<div>
+							<div class="text-label-caps uppercase text-primary tracking-widest mb-2">Proof, Not Promises</div>
+							<p class="text-body-md text-on-surface-variant m-0">Daily play-out log summaries and periodic photo/video verification, delivered to your inbox for the life of the flight.</p>
+						</div>
+					</li>
+				</ol>
+				<a class="glass-button px-8 py-4 text-label-caps uppercase tracking-widest text-center no-underline" href="../../index.html@p=27.html#booking">
+					Get Pricing For This Location				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Why pick us -->
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
+		<div class="max-w-3xl mb-16">
+			<h2 class="text-headline-xl md:text-display-lg-mobile font-black text-primary uppercase tracking-tight mb-6">
+				Why Bangla LED			</h2>
+			<p class="text-body-lg text-on-surface-variant">
+				Plenty of operators can rent you a screen. We operate a network built on one uncomfortable promise: every claim we make is one you can verify.			</p>
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+			<div class="border border-white/10 p-8 flex flex-col gap-4">
+				<div class="text-headline-xl font-black text-primary">99.7%</div>
+				<div class="text-label-caps uppercase text-primary tracking-widest">Network Uptime</div>
+				<p class="text-body-md text-on-surface-variant m-0">Redundant power and remote monitoring on every panel. Dark screens don&#039;t bill — and don&#039;t happen.</p>
+			</div>
+			<div class="border border-white/10 p-8 flex flex-col gap-4">
+				<div class="text-headline-xl font-black text-primary">Daily</div>
+				<div class="text-label-caps uppercase text-primary tracking-widest">Play-Out Logs</div>
+				<p class="text-body-md text-on-surface-variant m-0">Timestamped log summaries prove every play of every loop. You audit us, not the other way around.</p>
+			</div>
+			<div class="border border-white/10 p-8 flex flex-col gap-4">
+				<div class="text-headline-xl font-black text-primary">6</div>
+				<div class="text-label-caps uppercase text-primary tracking-widest">Cities, One Buy</div>
+				<p class="text-body-md text-on-surface-variant m-0">Dhaka, Chattogram, Cox&#039;s Bazar, Cumilla, Rajshahi, and Sylhet — one contract, one creative spec, national reach.</p>
+			</div>
+			<div class="border border-white/10 p-8 flex flex-col gap-4">
+				<div class="text-headline-xl font-black text-primary">24h</div>
+				<div class="text-label-caps uppercase text-primary tracking-widest">Response Standard</div>
+				<p class="text-body-md text-on-surface-variant m-0">Media kit, availability, and pricing in one business day. Your launch window is our deadline.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Lead capture -->
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative border-t border-white/10" id="booking">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
+			<div>
+				<h2 class="text-display-lg-mobile md:text-display-lg font-black text-primary uppercase mb-6">Secure This Placement</h2>
+				<p class="text-body-lg text-on-surface-variant max-w-md">
+					Availability is strictly limited and prime flights sell by the quarter. Submit your details and the full rate card, media kit, and availability calendar for this location land in your inbox within one business day.				</p>
+			</div>
+			<div class="glass-panel p-8 md:p-12 relative overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+            
+        <form class="flex flex-col gap-8 relative z-10" method="post" action="/Bangla-LED/wp/wp-admin/admin-post.php">
+            <input type="hidden" name="action" value="bangla_led_lead" />
+            <input type="hidden" id="bangla_led_lead_nonce" name="bangla_led_lead_nonce" value="8d3816ba8c" /><input type="hidden" name="_wp_http_referer" value="/locations/bondor-bazar-sylhet/" />                            <input type="hidden" name="bl_location" value="Bondor Bazar, Sylhet" />
+            
+            <!-- Honeypot -->
+            <div class="absolute -left-[9999px]" aria-hidden="true">
+                <label for="bl_company_website">Leave this field empty</label>
+                <input type="text" id="bl_company_website" name="bl_company_website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-mono-label uppercase text-on-surface-variant tracking-widest" for="bl_name">Name / Representative</label>
+                <input class="input-glass w-full py-3 px-0 text-body-md text-primary" id="bl_name" name="bl_name" placeholder="Enter your full name" type="text" required />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-mono-label uppercase text-on-surface-variant tracking-widest" for="bl_brand">Brand / Agency</label>
+                <input class="input-glass w-full py-3 px-0 text-body-md text-primary" id="bl_brand" name="bl_brand" placeholder="Enter your brand or agency name" type="text" required />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-mono-label uppercase text-on-surface-variant tracking-widest" for="bl_email">Work Email</label>
+                <input class="input-glass w-full py-3 px-0 text-body-md text-primary" id="bl_email" name="bl_email" placeholder="name@company.com" type="email" required />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-mono-label uppercase text-on-surface-variant tracking-widest" for="bl_dates">Proposed Campaign Dates</label>
+                <input class="input-glass w-full py-3 px-0 text-body-md text-primary" id="bl_dates" name="bl_dates" placeholder="e.g., Q3 2026" type="text" />
+            </div>
+
+            <button class="mt-4 glass-button w-full py-4 text-label-caps uppercase text-primary tracking-widest flex items-center justify-center gap-2 group" type="submit">
+                Get Pricing For This Location                <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
+            </button>
+        </form>
+    </div>
+		</div>
+	</section>
+
+	<!-- Related placements — internal links that reinforce the city silo -->
+	
+
+</main>
+
+<footer class="w-full border-t border-white/5 bg-surface text-primary py-12 px-margin-mobile md:px-margin-desktop mt-section-gap-mobile md:mt-section-gap flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="text-headline-lg font-black tracking-tighter uppercase">
+        Bangla LED    </div>
+
+    <div class="flex flex-wrap justify-center gap-6 text-mono-label uppercase">
+                        <a class="text-on-surface-variant hover:text-white transition-colors no-underline" href="#">Privacy Policy</a>
+                            <a class="text-on-surface-variant hover:text-white transition-colors no-underline" href="#">Terms of Service</a>
+                            <a class="text-on-surface-variant hover:text-white transition-colors no-underline" href="../../index.html#network">Installation Specs</a>
+                            <a class="text-on-surface-variant hover:text-white transition-colors no-underline" href="#">Sustainability</a>
+                </div>
+
+    <div class="text-mono-label uppercase text-on-surface-variant">
+        &copy; 2026 BANGLA LED. ALL RIGHTS RESERVED.    </div>
+</footer>
+
+<script src="/Bangla-LED/wp/wp-content/themes/bangla-led-theme/assets/js/main.js?ver=1.0.0" id="bangla-led-main-js"></script>
+</body>
+</html>

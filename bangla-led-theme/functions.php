@@ -211,6 +211,12 @@ add_action( 'init', 'bangla_led_register_post_types' );
 function bangla_led_location_fields() {
 	return array(
 		'_bl_impressions'   => array( 'label' => __( 'Daily Impressions', 'bangla-led' ), 'placeholder' => '150,000+' ),
+		'_bl_total_traffic' => array( 'label' => __( 'Total Monthly Traffic', 'bangla-led' ), 'placeholder' => '4.5M+' ),
+		'_bl_gender_split'  => array( 'label' => __( 'Gender Split', 'bangla-led' ), 'placeholder' => '64% Male / 36% Female' ),
+		'_bl_age_groups'    => array( 'label' => __( 'Age Profile', 'bangla-led' ), 'placeholder' => '25–44 core (58%)' ),
+		'_bl_professions'   => array( 'label' => __( 'Dominant Professions', 'bangla-led' ), 'placeholder' => 'Executives, Bankers, Entrepreneurs' ),
+		'_bl_exposure'      => array( 'label' => __( 'Exposure Estimate', 'bangla-led' ), 'placeholder' => '6–9 full plays per signal stop' ),
+		'_bl_facing'        => array( 'label' => __( 'Facing / Sightline', 'bangla-led' ), 'placeholder' => 'Hatirjheel & GMG Mor' ),
 		'_bl_demographic'   => array( 'label' => __( 'Core Demographic', 'bangla-led' ), 'placeholder' => 'Corporate Executives' ),
 		'_bl_dimensions'    => array( 'label' => __( 'Screen Dimensions', 'bangla-led' ), 'placeholder' => "30' x 15'" ),
 		'_bl_resolution'    => array( 'label' => __( 'Resolution / Pixel Pitch', 'bangla-led' ), 'placeholder' => 'P4 Outdoor' ),
@@ -602,8 +608,26 @@ function bangla_led_get_top_locations( $count = 3 ) {
  * One-time demo content — populates the network on first activation
  * ---------------------------------------------------------------------- */
 
+/**
+ * Find a post ID by exact title (replacement for deprecated get_page_by_title).
+ *
+ * @param string $title Post title.
+ * @param string $type  Post type.
+ * @return int Post ID or 0.
+ */
+function bangla_led_find_by_title( $title, $type ) {
+	$found = get_posts( array(
+		'post_type'   => $type,
+		'title'       => $title,
+		'post_status' => 'any',
+		'numberposts' => 1,
+		'fields'      => 'ids',
+	) );
+	return $found ? (int) $found[0] : 0;
+}
+
 function bangla_led_seed_demo_content() {
-	if ( get_option( 'bangla_led_seeded' ) ) {
+	if ( get_option( 'bangla_led_seeded_v2' ) ) {
 		flush_rewrite_rules();
 		return;
 	}
@@ -611,138 +635,49 @@ function bangla_led_seed_demo_content() {
 	/* CPTs are registered on init; activation can run before that. */
 	bangla_led_register_post_types();
 
-	$dhaka = wp_insert_term( 'Dhaka', 'city' );
-	$dhaka_id = ( ! is_wp_error( $dhaka ) ) ? (int) $dhaka['term_id'] : 0;
+	require_once get_template_directory() . '/inc/demo-content.php';
 
-	$hoods = array();
-	foreach ( array( 'Gulshan', 'Banani', 'Tejgaon', 'Uttara', 'Motijheel' ) as $hood ) {
-		$term = wp_insert_term( $hood, 'neighborhood' );
+	/* Terms — cities and their neighborhoods. */
+	$city_ids = array();
+	$hood_ids = array();
+	foreach ( bangla_led_demo_terms() as $city => $hoods ) {
+		$existing = term_exists( $city, 'city' );
+		$term     = $existing ? $existing : wp_insert_term( $city, 'city' );
 		if ( ! is_wp_error( $term ) ) {
-			$hoods[ $hood ] = (int) $term['term_id'];
+			$city_ids[ $city ] = (int) $term['term_id'];
+		}
+		foreach ( $hoods as $hood ) {
+			$existing = term_exists( $hood, 'neighborhood' );
+			$term     = $existing ? $existing : wp_insert_term( $hood, 'neighborhood' );
+			if ( ! is_wp_error( $term ) ) {
+				$hood_ids[ $hood ] = (int) $term['term_id'];
+			}
 		}
 	}
 
-	$locations = array(
-		array(
-			'title'        => 'Police Plaza South Side',
-			'neighborhood' => 'Gulshan',
-			'featured'     => '1',
-			'excerpt'      => 'Command the attention of corporate executives with 150,000+ daily views in the heart of Gulshan.',
-			'content'      => '<p>Positioned at the southern face of Police Plaza Concord, this screen owns the sightline of one of Dhaka\'s most affluent corridors. Traffic moving between Gulshan 1, Hatirjheel, and the central business district passes directly beneath the display, with signal-controlled stops producing exceptional dwell time during peak hours.</p><p>The audience profile here is unmatched in Bangladesh: C-suite executives, diplomats, private bankers, and the decision-makers of every major corporate headquarters within a two-kilometre radius. For premium brands, this is the single highest-value piece of digital airspace in the city.</p>',
-			'meta'         => array(
-				'_bl_impressions'  => '150,000+',
-				'_bl_demographic'  => 'Corporate Executives',
-				'_bl_dimensions'   => "30' x 15'",
-				'_bl_resolution'   => 'P4 Outdoor',
-				'_bl_brightness'   => '5,500 nits',
-				'_bl_peak_hours'   => '08:00–11:00 / 17:00–21:00',
-				'_bl_dwell_time'   => '90+ seconds',
-				'_bl_hours'        => '18h Daily',
-				'_bl_traffic_note' => 'High Traffic Intersection',
-				'_bl_lat'          => '23.7806',
-				'_bl_lng'          => '90.4143',
-			),
-		),
-		array(
-			'title'        => 'Kamal Ataturk Avenue Gateway',
-			'neighborhood' => 'Banani',
-			'featured'     => '1',
-			'excerpt'      => 'The commercial spine of Banani — 120,000+ daily impressions across banking, airline, and agency headquarters traffic.',
-			'content'      => '<p>Kamal Ataturk Avenue concentrates more corporate signage spend than any other street in Bangladesh, and this placement anchors its busiest gateway. The screen faces four lanes of slow-moving commuter traffic flanked by bank head offices, airline sales centres, and multinational agencies.</p><p>Dwell time here is driven by the avenue\'s signalised crossings; creative running 10-second loops achieves near-total audience coverage during morning and evening peaks.</p>',
-			'meta'         => array(
-				'_bl_impressions'  => '120,000+',
-				'_bl_demographic'  => 'Banking & Agency Professionals',
-				'_bl_dimensions'   => "24' x 12'",
-				'_bl_resolution'   => 'P4 Outdoor',
-				'_bl_brightness'   => '5,000 nits',
-				'_bl_peak_hours'   => '08:30–11:00 / 17:00–20:30',
-				'_bl_dwell_time'   => '75+ seconds',
-				'_bl_hours'        => '18h Daily',
-				'_bl_traffic_note' => 'Signalised Commercial Corridor',
-				'_bl_lat'          => '23.7937',
-				'_bl_lng'          => '90.4043',
-			),
-		),
-		array(
-			'title'        => 'Tejgaon Link Road Tower',
-			'neighborhood' => 'Tejgaon',
-			'featured'     => '1',
-			'excerpt'      => 'A monolithic screen above Dhaka\'s industrial-commercial crossover, capturing 180,000+ vehicles daily.',
-			'content'      => '<p>The Tejgaon Link Road placement sits at the convergence of industrial logistics, new-economy office campuses, and the arterial route into Gulshan. Its elevated mount and unobstructed 200-metre approach make it visible far earlier than any competing structure in the corridor.</p><p>This is volume with quality: fleet decision-makers, media-buying agencies headquartered in the Tejgaon commercial belt, and the daily flow of Dhaka\'s upwardly mobile workforce.</p>',
-			'meta'         => array(
-				'_bl_impressions'  => '180,000+',
-				'_bl_demographic'  => 'Urban Professionals & Fleet Buyers',
-				'_bl_dimensions'   => "32' x 16'",
-				'_bl_resolution'   => 'P5 Outdoor',
-				'_bl_brightness'   => '6,000 nits',
-				'_bl_peak_hours'   => '07:30–10:30 / 16:30–21:00',
-				'_bl_dwell_time'   => '60+ seconds',
-				'_bl_hours'        => '18h Daily',
-				'_bl_traffic_note' => 'Elevated Arterial Approach',
-				'_bl_lat'          => '23.7639',
-				'_bl_lng'          => '90.4067',
-			),
-		),
-		array(
-			'title'        => 'Uttara Jashimuddin Crossing',
-			'neighborhood' => 'Uttara',
-			'featured'     => '',
-			'excerpt'      => 'The northern gateway to Dhaka — airport traffic, new wealth, and 140,000+ daily impressions.',
-			'content'      => '<p>Every airport arrival entering the city by road passes this crossing. The placement reaches international travellers, NRB investors, and the fast-growing affluent households of Dhaka North, with extended evening dwell from the sector\'s retail and dining cluster.</p>',
-			'meta'         => array(
-				'_bl_impressions'  => '140,000+',
-				'_bl_demographic'  => 'Travellers & Affluent Households',
-				'_bl_dimensions'   => "28' x 14'",
-				'_bl_resolution'   => 'P5 Outdoor',
-				'_bl_brightness'   => '5,500 nits',
-				'_bl_peak_hours'   => '09:00–12:00 / 18:00–22:00',
-				'_bl_dwell_time'   => '70+ seconds',
-				'_bl_hours'        => '18h Daily',
-				'_bl_traffic_note' => 'Airport Gateway Corridor',
-				'_bl_lat'          => '23.8610',
-				'_bl_lng'          => '90.4004',
-			),
-		),
-		array(
-			'title'        => 'Motijheel Shapla Chattar',
-			'neighborhood' => 'Motijheel',
-			'featured'     => '',
-			'excerpt'      => 'The financial heart of Bangladesh — central bank, stock exchange, and 160,000+ daily impressions.',
-			'content'      => '<p>Shapla Chattar is the symbolic and literal centre of Bangladeshi finance. This screen addresses the country\'s densest concentration of institutional decision-makers — central bankers, brokerage houses, and corporate treasury teams — during the longest commute dwell windows in the city.</p>',
-			'meta'         => array(
-				'_bl_impressions'  => '160,000+',
-				'_bl_demographic'  => 'Finance & Institutional Leaders',
-				'_bl_dimensions'   => "26' x 13'",
-				'_bl_resolution'   => 'P4 Outdoor',
-				'_bl_brightness'   => '5,000 nits',
-				'_bl_peak_hours'   => '08:00–10:30 / 17:30–20:00',
-				'_bl_dwell_time'   => '85+ seconds',
-				'_bl_hours'        => '18h Daily',
-				'_bl_traffic_note' => 'CBD Roundabout',
-				'_bl_lat'          => '23.7330',
-				'_bl_lng'          => '90.4172',
-			),
-		),
-	);
-
-	foreach ( $locations as $loc ) {
-		$post_id = wp_insert_post( array(
-			'post_type'    => 'location',
-			'post_status'  => 'publish',
-			'post_title'   => $loc['title'],
-			'post_excerpt' => $loc['excerpt'],
-			'post_content' => $loc['content'],
-		) );
-
+	/* Locations — skip any title that already exists so re-seeding is safe. */
+	foreach ( bangla_led_demo_locations() as $loc ) {
+		$existing = bangla_led_find_by_title( $loc['title'], 'location' );
+		if ( $existing ) {
+			$post_id = $existing;
+		} else {
+			$post_id = wp_insert_post( array(
+				'post_type'    => 'location',
+				'post_status'  => 'publish',
+				'post_title'   => $loc['title'],
+				'post_excerpt' => $loc['excerpt'],
+				'post_content' => $loc['content'],
+			) );
+		}
 		if ( ! $post_id || is_wp_error( $post_id ) ) {
 			continue;
 		}
 
-		if ( $dhaka_id ) {
-			wp_set_object_terms( $post_id, array( $dhaka_id ), 'city' );
+		if ( isset( $city_ids[ $loc['city'] ] ) ) {
+			wp_set_object_terms( $post_id, array( $city_ids[ $loc['city'] ] ), 'city' );
 		}
-		if ( isset( $hoods[ $loc['neighborhood'] ] ) ) {
-			wp_set_object_terms( $post_id, array( $hoods[ $loc['neighborhood'] ] ), 'neighborhood' );
+		if ( isset( $hood_ids[ $loc['hood'] ] ) ) {
+			wp_set_object_terms( $post_id, array( $hood_ids[ $loc['hood'] ] ), 'neighborhood' );
 		}
 		update_post_meta( $post_id, '_bl_featured', $loc['featured'] );
 		foreach ( $loc['meta'] as $key => $value ) {
@@ -750,28 +685,11 @@ function bangla_led_seed_demo_content() {
 		}
 	}
 
-	$campaigns = array(
-		array(
-			'title'   => 'National Bank — Quarter-End Deposit Drive',
-			'client'  => 'Premier National Bank',
-			'sector'  => 'Banking',
-			'content' => '<p>A four-week share-of-voice takeover across the Gulshan and Motijheel screens, synchronised with branch-level promotions. Creative rotated by daypart to match commuter mindset — savings messaging in the morning, wealth management in the evening peak.</p>',
-		),
-		array(
-			'title'   => 'Telecom 5G Launch — City-Wide Domination',
-			'client'  => 'National Telecom Operator',
-			'sector'  => 'Telecom',
-			'content' => '<p>Simultaneous launch creative across the full network at 20:00 on launch night, followed by a two-week sustained flight. The campaign delivered total visibility across every major commuter corridor in Dhaka within a single evening.</p>',
-		),
-		array(
-			'title'   => 'Luxury Watchmaker — Flagship Opening',
-			'client'  => 'Swiss Luxury Maison',
-			'sector'  => 'Luxury',
-			'content' => '<p>A precision placement on the Police Plaza screen only — monochrome cinematic creative engineered for the exact audience that buys at this level. Proof that one perfect screen outperforms ten average ones.</p>',
-		),
-	);
-
-	foreach ( $campaigns as $camp ) {
+	/* Campaign case studies. */
+	foreach ( bangla_led_demo_campaigns() as $camp ) {
+		if ( bangla_led_find_by_title( $camp['title'], 'campaign' ) ) {
+			continue;
+		}
 		$post_id = wp_insert_post( array(
 			'post_type'    => 'campaign',
 			'post_status'  => 'publish',
@@ -784,7 +702,21 @@ function bangla_led_seed_demo_content() {
 		}
 	}
 
-	update_option( 'bangla_led_seeded', 1 );
+	/* SEO editorial posts. */
+	foreach ( bangla_led_demo_posts() as $article ) {
+		if ( bangla_led_find_by_title( $article['title'], 'post' ) ) {
+			continue;
+		}
+		wp_insert_post( array(
+			'post_type'    => 'post',
+			'post_status'  => 'publish',
+			'post_title'   => $article['title'],
+			'post_excerpt' => $article['excerpt'],
+			'post_content' => $article['content'],
+		) );
+	}
+
+	update_option( 'bangla_led_seeded_v2', 1 );
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'bangla_led_seed_demo_content' );
