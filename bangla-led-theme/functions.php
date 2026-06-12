@@ -763,6 +763,17 @@ function bangla_led_seed_demo_content() {
 		) );
 	}
 
+	/* Create the News page if it doesn't exist. */
+	if ( ! bangla_led_find_by_title( 'News', 'page' ) ) {
+		wp_insert_post( array(
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_title'   => 'News',
+			'post_name'    => 'news',
+			'post_content' => 'This page displays the latest news and articles from Bangla LED.',
+		) );
+	}
+
 	update_option( 'bangla_led_seeded_v3', 1 );
 	flush_rewrite_rules();
 }

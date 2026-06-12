@@ -367,6 +367,9 @@ $campaigns = new WP_Query( array(
     </div>
 </section>
 
+<!-- Articles carousel -->
+<?php get_template_part( 'template-parts/articles-carousel' ); ?>
+
 <!-- Lead capture -->
 <section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative border-t border-white/10" id="booking">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">

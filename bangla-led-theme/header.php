@@ -164,6 +164,7 @@
         } else {
             $nav_links = array(
                 __( 'Locations', 'bangla-led' ) => get_post_type_archive_link( 'location' ),
+                __( 'News', 'bangla-led' )      => home_url( '/news/' ),
                 __( 'Networks', 'bangla-led' )  => home_url( '/#network' ),
                 __( 'Campaigns', 'bangla-led' ) => get_post_type_archive_link( 'campaign' ),
                 __( 'Contact', 'bangla-led' )   => home_url( '/#booking' ),
@@ -199,6 +200,7 @@
     <?php
     $mobile_links = array(
         __( 'Locations', 'bangla-led' ) => get_post_type_archive_link( 'location' ),
+        __( 'News', 'bangla-led' )      => home_url( '/news/' ),
         __( 'Networks', 'bangla-led' )  => home_url( '/#network' ),
         __( 'Campaigns', 'bangla-led' ) => get_post_type_archive_link( 'campaign' ),
         __( 'Contact', 'bangla-led' )   => home_url( '/#booking' ),
