@@ -120,6 +120,25 @@ $more_locations = new WP_Query( array(
     <?php endif; ?>
 </section>
 
+<!-- Live network photography I -->
+<section class="relative h-[55vh] md:h-[75vh] overflow-hidden border-y border-white/10">
+    <img
+        src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/network-1.jpg' ); ?>"
+        alt="<?php esc_attr_e( 'Bangla LED digital billboard cluster glowing over a rain-soaked Dhaka intersection', 'bangla-led' ); ?>"
+        class="w-full h-full object-cover"
+        loading="lazy"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" aria-hidden="true"></div>
+    <div class="absolute bottom-0 inset-x-0 px-margin-mobile md:px-margin-desktop pb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4 max-w-container-max mx-auto">
+        <span class="chip self-start px-4 py-2 text-mono-label uppercase text-primary tracking-widest backdrop-blur-sm bg-black/40">
+            <?php esc_html_e( 'Live From The Network &mdash; Dhaka', 'bangla-led' ); ?>
+        </span>
+        <p class="text-mono-label uppercase tracking-widest text-on-surface-variant m-0 md:text-right">
+            <?php esc_html_e( 'Monsoon, rush hour, and the only thing still glowing.', 'bangla-led' ); ?>
+        </p>
+    </div>
+</section>
+
 <!-- Authority — Technology & Audience Intelligence -->
 <section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10" id="network">
     <div class="max-w-3xl mb-20">
@@ -276,6 +295,25 @@ $campaigns = new WP_Query( array(
     </div>
 </section>
 
+<!-- Live network photography II -->
+<section class="relative h-[55vh] md:h-[75vh] overflow-hidden border-y border-white/10">
+    <img
+        src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/network-2.jpg' ); ?>"
+        alt="<?php esc_attr_e( 'Multi-screen Bangla LED installation commanding a busy Dhaka street corner at dusk', 'bangla-led' ); ?>"
+        class="w-full h-full object-cover"
+        loading="lazy"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" aria-hidden="true"></div>
+    <div class="absolute bottom-0 inset-x-0 px-margin-mobile md:px-margin-desktop pb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4 max-w-container-max mx-auto">
+        <span class="chip self-start px-4 py-2 text-mono-label uppercase text-primary tracking-widest backdrop-blur-sm bg-black/40">
+            <?php esc_html_e( 'Five Screens, One Corner', 'bangla-led' ); ?>
+        </span>
+        <p class="text-mono-label uppercase tracking-widest text-on-surface-variant m-0 md:text-right">
+            <?php esc_html_e( 'When the screen is the brightest thing on the street, the street looks at the screen.', 'bangla-led' ); ?>
+        </p>
+    </div>
+</section>
+
 <!-- FAQ — peak-keyword questions, each backed by a dedicated article -->
 <section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10" id="faq">
     <div class="max-w-3xl mb-16">
@@ -304,9 +342,9 @@ $campaigns = new WP_Query( array(
                 <div id="bl-faq-panel-<?php echo (int) $i; ?>" class="bl-faq-panel" hidden>
                     <div class="relative overflow-hidden border border-white/10 mb-10">
                         <img
-                            src="<?php echo esc_url( BANGLA_LED_DEFAULT_HERO ); ?>"
+                            src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/network-' . ( ( $i % 2 ) + 1 ) . '.jpg' ); ?>"
                             alt=""
-                            class="absolute inset-0 w-full h-full object-cover grayscale blur-md scale-110 opacity-40"
+                            class="absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-40"
                             loading="lazy"
                             aria-hidden="true"
                         />
