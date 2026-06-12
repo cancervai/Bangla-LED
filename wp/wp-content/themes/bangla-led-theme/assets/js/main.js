@@ -39,6 +39,36 @@
 			onScroll();
 		}
 
+		/* FAQ accordion — one open at a time, blurred image reveals on open. */
+		var faqToggles = document.querySelectorAll( '.bl-faq-toggle' );
+		faqToggles.forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var panel = document.getElementById( btn.getAttribute( 'aria-controls' ) );
+				var isOpen = btn.getAttribute( 'aria-expanded' ) === 'true';
+
+				faqToggles.forEach( function ( other ) {
+					var otherPanel = document.getElementById( other.getAttribute( 'aria-controls' ) );
+					other.setAttribute( 'aria-expanded', 'false' );
+					var icon = other.querySelector( '.bl-faq-icon' );
+					if ( icon ) {
+						icon.style.transform = '';
+					}
+					if ( otherPanel ) {
+						otherPanel.hidden = true;
+					}
+				} );
+
+				if ( ! isOpen && panel ) {
+					btn.setAttribute( 'aria-expanded', 'true' );
+					panel.hidden = false;
+					var icon = btn.querySelector( '.bl-faq-icon' );
+					if ( icon ) {
+						icon.style.transform = 'rotate(45deg)';
+					}
+				}
+			} );
+		} );
+
 		/* If a lead was just submitted, bring the confirmation into view. */
 		if ( window.location.search.indexOf( 'lead=success' ) !== -1 ) {
 			var booking = document.getElementById( 'booking' );
