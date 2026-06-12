@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BANGLA_LED_VERSION', '1.1.0' );
+define( 'BANGLA_LED_VERSION', '1.1.1' );
 
 require_once get_template_directory() . '/inc/demo-articles.php';
 
