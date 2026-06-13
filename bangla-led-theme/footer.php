@@ -68,6 +68,13 @@
     </div>
 </footer>
 
+<?php
+/* Lead-capture popup — front page only. */
+if ( is_front_page() ) {
+	get_template_part( 'template-parts/popup' );
+}
+?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

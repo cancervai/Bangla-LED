@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BANGLA_LED_VERSION', '1.3.0' );
+define( 'BANGLA_LED_VERSION', '1.4.0' );
 
 /**
  * Sitewide contact number — drives every click-to-call CTA.
@@ -42,6 +42,25 @@ function bangla_led_call_button( $args = array() ) {
 
 require_once get_template_directory() . '/inc/demo-articles.php';
 require_once get_template_directory() . '/inc/demo-services.php';
+
+/**
+ * Resolve a location's photo: featured image → bundled photo by slug → network fallback.
+ *
+ * @param int    $post_id Location ID.
+ * @param string $size    Image size for the featured image.
+ * @return string Image URL.
+ */
+function bangla_led_location_photo( $post_id, $size = 'large' ) {
+	if ( has_post_thumbnail( $post_id ) ) {
+		return get_the_post_thumbnail_url( $post_id, $size );
+	}
+	$slug = get_post_field( 'post_name', $post_id );
+	$file = '/assets/locations/' . $slug . '.jpg';
+	if ( $slug && file_exists( get_template_directory() . $file ) ) {
+		return get_template_directory_uri() . $file;
+	}
+	return BANGLA_LED_DEFAULT_HERO;
+}
 
 /**
  * Default cinematic imagery (used when no featured image is set).
@@ -486,7 +505,16 @@ function bangla_led_handle_lead() {
 	$email    = isset( $_POST['bl_email'] ) ? sanitize_email( wp_unslash( $_POST['bl_email'] ) ) : '';
 	$dates    = isset( $_POST['bl_dates'] ) ? sanitize_text_field( wp_unslash( $_POST['bl_dates'] ) ) : '';
 	$location = isset( $_POST['bl_location'] ) ? sanitize_text_field( wp_unslash( $_POST['bl_location'] ) ) : '';
+	$desig    = isset( $_POST['bl_designation'] ) ? sanitize_text_field( wp_unslash( $_POST['bl_designation'] ) ) : '';
+	$company  = isset( $_POST['bl_company'] ) ? sanitize_text_field( wp_unslash( $_POST['bl_company'] ) ) : '';
+	$phone    = isset( $_POST['bl_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['bl_phone'] ) ) : '';
+	$intent   = isset( $_POST['bl_intent'] ) ? sanitize_key( wp_unslash( $_POST['bl_intent'] ) ) : '';
 	$referer  = wp_get_referer() ? wp_get_referer() : home_url( '/' );
+
+	/* For the proposal/popup forms, company stands in for brand if brand is absent. */
+	if ( '' === $brand && '' !== $company ) {
+		$brand = $company;
+	}
 
 	if ( '' === $name || '' === $brand ) {
 		wp_safe_redirect( add_query_arg( 'lead', 'error', $referer ) );
@@ -495,10 +523,14 @@ function bangla_led_handle_lead() {
 
 	$body  = "New media kit / placement enquiry\n\n";
 	$body .= 'Name:           ' . $name . "\n";
+	$body .= 'Designation:    ' . $desig . "\n";
+	$body .= 'Company:        ' . $company . "\n";
 	$body .= 'Brand / Agency: ' . $brand . "\n";
+	$body .= 'Phone:          ' . $phone . "\n";
 	$body .= 'Email:          ' . $email . "\n";
 	$body .= 'Campaign Dates: ' . $dates . "\n";
 	$body .= 'Location:       ' . ( $location ? $location : 'General / Network-wide' ) . "\n";
+	$body .= 'Intent:         ' . ( $intent ? $intent : 'enquiry' ) . "\n";
 	$body .= 'Submitted from: ' . $referer . "\n";
 
 	/* Persist first — email transport can fail silently on shared hosts. */
@@ -512,6 +544,10 @@ function bangla_led_handle_lead() {
 	if ( $lead_id && ! is_wp_error( $lead_id ) ) {
 		update_post_meta( $lead_id, '_bl_lead_email', $email );
 		update_post_meta( $lead_id, '_bl_lead_location', $location );
+		update_post_meta( $lead_id, '_bl_lead_phone', $phone );
+		update_post_meta( $lead_id, '_bl_lead_designation', $desig );
+		update_post_meta( $lead_id, '_bl_lead_company', $company );
+		update_post_meta( $lead_id, '_bl_lead_intent', $intent );
 	}
 
 	$subject = sprintf( '[BANGLA LED] New lead: %s', $brand );
@@ -520,6 +556,14 @@ function bangla_led_handle_lead() {
 		$headers[] = 'Reply-To: ' . $name . ' <' . $email . '>';
 	}
 	wp_mail( get_option( 'admin_email' ), $subject, $body, $headers );
+
+	/* Proposal download intent → unlock the print-ready proposal. */
+	if ( 'proposal' === $intent ) {
+		$target = isset( $_POST['bl_proposal_url'] ) ? esc_url_raw( wp_unslash( $_POST['bl_proposal_url'] ) ) : home_url( '/proposal/' );
+		setcookie( 'bl_proposal_unlocked', '1', time() + 2 * DAY_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN );
+		wp_safe_redirect( add_query_arg( 'unlocked', '1', $target ) );
+		exit;
+	}
 
 	wp_safe_redirect( add_query_arg( 'lead', 'success', $referer . '#booking' ) );
 	exit;
@@ -788,7 +832,7 @@ function bangla_led_find_by_title( $title, $type ) {
 }
 
 function bangla_led_seed_demo_content() {
-	if ( get_option( 'bangla_led_seeded_v4' ) ) {
+	if ( get_option( 'bangla_led_seeded_v5' ) ) {
 		flush_rewrite_rules();
 		return;
 	}
@@ -982,7 +1026,18 @@ function bangla_led_seed_demo_content() {
 		) );
 	}
 
-	update_option( 'bangla_led_seeded_v4', 1 );
+	/* Create the gated Proposal download page (uses page-proposal.php). */
+	if ( ! bangla_led_find_by_title( 'Proposal', 'page' ) ) {
+		wp_insert_post( array(
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+			'post_title'   => 'Proposal',
+			'post_name'    => 'proposal',
+			'post_content' => 'Download the Bangla LED national billboard proposal.',
+		) );
+	}
+
+	update_option( 'bangla_led_seeded_v5', 1 );
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'bangla_led_seed_demo_content' );
@@ -995,7 +1050,7 @@ add_action( 'after_switch_theme', 'bangla_led_seed_demo_content' );
  * guard makes new seed versions apply on the next page load instead.
  */
 function bangla_led_maybe_seed() {
-	if ( ! get_option( 'bangla_led_seeded_v4' ) ) {
+	if ( ! get_option( 'bangla_led_seeded_v5' ) ) {
 		bangla_led_seed_demo_content();
 	}
 }

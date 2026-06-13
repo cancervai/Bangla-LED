@@ -408,6 +408,23 @@ $campaigns = new WP_Query( array(
 <!-- Articles carousel -->
 <?php get_template_part( 'template-parts/articles-carousel' ); ?>
 
+<!-- Download proposal — gated lead-gen -->
+<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
+    <div class="glass-panel p-8 md:p-16 grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
+        <div>
+            <span class="inline-block chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest mb-6"><?php esc_html_e( 'Media Kit', 'bangla-led' ); ?></span>
+            <h2 class="text-display-lg-mobile font-black text-primary uppercase mb-6"><?php esc_html_e( 'Download The Full Proposal', 'bangla-led' ); ?></h2>
+            <p class="text-body-lg text-on-surface-variant max-w-md"><?php esc_html_e( 'The complete national deck — 59 placements across 10 cities, with real photos, audience data, specifications, and indicative rates. Fill the form once and it unlocks instantly, print-ready.', 'bangla-led' ); ?></p>
+        </div>
+        <div class="flex flex-col gap-4 md:items-end">
+            <a class="glass-button px-8 py-5 text-label-caps uppercase tracking-widest no-underline text-center w-full md:w-auto" href="<?php echo esc_url( home_url( '/proposal/' ) ); ?>">
+                <?php esc_html_e( 'Get The Proposal', 'bangla-led' ); ?> &rarr;
+            </a>
+            <?php bangla_led_call_button( array( 'label' => __( 'Or Call', 'bangla-led' ), 'classes' => 'px-8 py-4 text-label-caps uppercase tracking-widest border border-white/20 hover:border-white/50 text-primary transition-colors w-full md:w-auto justify-center' ) ); ?>
+        </div>
+    </div>
+</section>
+
 <!-- Lead capture -->
 <section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative border-t border-white/10" id="booking">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">

@@ -54,6 +54,68 @@ while ( have_posts() ) :
 		</section>
 	</article>
 
+	<!-- Interconnected ecosystem: related articles + suggested locations -->
+	<?php
+	$cats     = wp_get_post_terms( get_the_ID(), 'category', array( 'fields' => 'ids' ) );
+	$rel_args = array(
+		'post_type'      => 'post',
+		'posts_per_page' => 3,
+		'post__not_in'   => array( get_the_ID() ),
+		'no_found_rows'  => true,
+	);
+	if ( $cats && ! is_wp_error( $cats ) ) {
+		$rel_args['category__in'] = $cats;
+	}
+	$rel = new WP_Query( $rel_args );
+	if ( $rel->have_posts() ) :
+		?>
+		<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto pb-section-gap-mobile md:pb-16 border-t border-white/10 pt-section-gap-mobile md:pt-16">
+			<h2 class="text-headline-xl font-black text-primary uppercase tracking-tight mb-12"><?php esc_html_e( 'Keep Reading', 'bangla-led' ); ?></h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+				<?php
+				while ( $rel->have_posts() ) :
+					$rel->the_post();
+					?>
+					<article class="group border border-white/10 hover:border-white/40 transition-colors duration-500 p-8 flex flex-col gap-4">
+						<div class="text-mono-label uppercase text-on-surface-variant tracking-widest text-xs"><?php echo esc_html( get_the_date() ); ?></div>
+						<h3 class="text-headline-lg font-bold text-primary uppercase tracking-tight leading-tight m-0">
+							<a href="<?php the_permalink(); ?>" class="no-underline text-primary group-hover:text-white transition-colors"><?php the_title(); ?></a>
+						</h3>
+						<a href="<?php the_permalink(); ?>" class="mt-auto inline-flex items-center gap-2 text-label-caps uppercase text-primary tracking-widest no-underline"><?php esc_html_e( 'Read', 'bangla-led' ); ?> <span aria-hidden="true">&rarr;</span></a>
+					</article>
+				<?php endwhile; wp_reset_postdata(); ?>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<!-- Suggested placements + service cross-links -->
+	<?php
+	$loc_ids = get_posts( array( 'post_type' => 'location', 'posts_per_page' => 3, 'orderby' => 'rand', 'fields' => 'ids', 'no_found_rows' => true ) );
+	if ( $loc_ids ) :
+		?>
+		<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto pb-section-gap-mobile md:pb-section-gap border-t border-white/10 pt-section-gap-mobile md:pt-16">
+			<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+				<h2 class="text-headline-xl font-black text-primary uppercase tracking-tight m-0"><?php esc_html_e( 'Premium Placements To Book', 'bangla-led' ); ?></h2>
+				<a class="glass-button self-start md:self-end px-8 py-4 text-label-caps uppercase tracking-widest no-underline" href="<?php echo esc_url( get_post_type_archive_link( 'location' ) ); ?>"><?php esc_html_e( 'View All Locations', 'bangla-led' ); ?> &rarr;</a>
+			</div>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+				<?php
+				foreach ( $loc_ids as $rid ) :
+					$post = get_post( $rid );
+					setup_postdata( $post );
+					get_template_part( 'template-parts/location-card' );
+				endforeach;
+				wp_reset_postdata();
+				?>
+			</div>
+			<div class="mt-12 flex flex-wrap gap-3">
+				<a href="<?php echo esc_url( get_post_type_archive_link( 'service' ) ); ?>" class="chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest no-underline hover:border-white/50 transition-colors"><?php esc_html_e( 'Advertising Services', 'bangla-led' ); ?></a>
+				<a href="<?php echo esc_url( home_url( '/news/' ) ); ?>" class="chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest no-underline hover:border-white/50 transition-colors"><?php esc_html_e( 'News Hub', 'bangla-led' ); ?></a>
+				<a href="<?php echo esc_url( home_url( '/proposal/' ) ); ?>" class="chip px-4 py-2 text-mono-label uppercase text-primary tracking-widest no-underline hover:border-white/50 transition-colors"><?php esc_html_e( 'Download Proposal', 'bangla-led' ); ?></a>
+			</div>
+		</section>
+	<?php endif; ?>
+
 	<style>
 		/* Long-form article polish on black */
 		.bl-article h2 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin: 2.5em 0 0.75em; }

@@ -39,7 +39,7 @@ while ( have_posts() ) :
 	$city_name = ( $cities && ! is_wp_error( $cities ) ) ? $cities[0]->name : 'Dhaka';
 	$area_name = $hood_name ? $hood_name : $city_name;
 
-	$hero_image = has_post_thumbnail() ? get_the_post_thumbnail_url( $location_id, 'full' ) : BANGLA_LED_DEFAULT_HERO;
+	$hero_image = bangla_led_location_photo( $location_id, 'full' );
 	?>
 
 	<!-- Hero -->
@@ -431,36 +431,54 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<!-- Related placements — internal links that reinforce the city silo -->
+	<!-- Suggested placements — neighborhood first, then city (real-estate style) -->
 	<?php
-	$related_args = array(
-		'post_type'      => 'location',
-		'posts_per_page' => 3,
-		'post__not_in'   => array( $location_id ),
-		'no_found_rows'  => true,
-	);
-	if ( $cities && ! is_wp_error( $cities ) ) {
-		$related_args['tax_query'] = array(
-			array(
-				'taxonomy' => 'city',
-				'field'    => 'term_id',
-				'terms'    => $cities[0]->term_id,
-			),
-		);
+	$hood_terms   = get_the_terms( $location_id, 'neighborhood' );
+	$hood_term    = ( $hood_terms && ! is_wp_error( $hood_terms ) ) ? $hood_terms[0] : null;
+	$shown        = array( $location_id );
+
+	/* 1) Same neighborhood. */
+	$related_ids = array();
+	if ( $hood_term ) {
+		$q = get_posts( array(
+			'post_type'      => 'location',
+			'posts_per_page' => 3,
+			'post__not_in'   => $shown,
+			'fields'         => 'ids',
+			'tax_query'      => array( array( 'taxonomy' => 'neighborhood', 'field' => 'term_id', 'terms' => $hood_term->term_id ) ),
+		) );
+		$related_ids = array_merge( $related_ids, $q );
+		$shown       = array_merge( $shown, $q );
 	}
-	$related = new WP_Query( $related_args );
-	if ( $related->have_posts() ) :
+	/* 2) Top up from same city. */
+	if ( count( $related_ids ) < 3 && $cities && ! is_wp_error( $cities ) ) {
+		$q = get_posts( array(
+			'post_type'      => 'location',
+			'posts_per_page' => 3 - count( $related_ids ),
+			'post__not_in'   => $shown,
+			'fields'         => 'ids',
+			'tax_query'      => array( array( 'taxonomy' => 'city', 'field' => 'term_id', 'terms' => $cities[0]->term_id ) ),
+		) );
+		$related_ids = array_merge( $related_ids, $q );
+		$shown       = array_merge( $shown, $q );
+	}
+	/* 3) Top up from anywhere. */
+	if ( count( $related_ids ) < 3 ) {
+		$q = get_posts( array(
+			'post_type'      => 'location',
+			'posts_per_page' => 3 - count( $related_ids ),
+			'post__not_in'   => $shown,
+			'fields'         => 'ids',
+		) );
+		$related_ids = array_merge( $related_ids, $q );
+	}
+
+	if ( $related_ids ) :
 		?>
 		<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
 			<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
 				<h2 class="text-headline-xl font-black text-primary uppercase tracking-tight">
-					<?php
-					printf(
-						/* translators: %s: city name. */
-						esc_html__( 'More Placements in %s', 'bangla-led' ),
-						esc_html( $city_name )
-					);
-					?>
+					<?php esc_html_e( 'You May Also Consider', 'bangla-led' ); ?>
 				</h2>
 				<a class="glass-button self-start md:self-end px-8 py-4 text-label-caps uppercase text-primary tracking-widest no-underline" href="<?php echo esc_url( get_post_type_archive_link( 'location' ) ); ?>">
 					<?php esc_html_e( 'View All Locations', 'bangla-led' ); ?> <span aria-hidden="true">&rarr;</span>
@@ -468,15 +486,48 @@ while ( have_posts() ) :
 			</div>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
 				<?php
-				while ( $related->have_posts() ) :
-					$related->the_post();
+				foreach ( $related_ids as $rid ) :
+					$post = get_post( $rid );
+					setup_postdata( $post );
 					get_template_part( 'template-parts/location-card' );
-				endwhile;
+				endforeach;
 				wp_reset_postdata();
 				?>
 			</div>
 		</section>
 	<?php endif; ?>
+
+	<!-- The interconnected web — silo, area guide, services -->
+	<?php
+	$area_guide = $hood_term ? get_page_by_path( 'billboard-advertising-in-' . $hood_term->slug, OBJECT, 'post' ) : null;
+	$eco = array();
+	if ( $cities && ! is_wp_error( $cities ) ) {
+		$eco[] = array( get_term_link( $cities[0] ), sprintf( __( 'All %s Billboards', 'bangla-led' ), $city_name ), __( 'City Guide', 'bangla-led' ) );
+	}
+	if ( $hood_term ) {
+		$eco[] = array( get_term_link( $hood_term ), sprintf( __( '%s Area Placements', 'bangla-led' ), $hood_term->name ), __( 'Area Silo', 'bangla-led' ) );
+	}
+	if ( $area_guide ) {
+		$eco[] = array( get_permalink( $area_guide ), $area_guide->post_title, __( 'Corridor Guide', 'bangla-led' ) );
+	}
+	$eco[] = array( home_url( '/services/digital-led-billboard-advertising/' ), __( 'Digital LED Billboard Advertising', 'bangla-led' ), __( 'Service', 'bangla-led' ) );
+	$eco[] = array( home_url( '/news/' ), __( 'News & Buying Guides', 'bangla-led' ), __( 'Insights', 'bangla-led' ) );
+	$eco[] = array( home_url( '/proposal/' ), __( 'Download The Full Proposal', 'bangla-led' ), __( 'Media Kit', 'bangla-led' ) );
+	?>
+	<section class="py-section-gap-mobile md:py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-white/10">
+		<h2 class="text-headline-xl font-black text-primary uppercase tracking-tight mb-12"><?php esc_html_e( 'Explore The Network', 'bangla-led' ); ?></h2>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+			<?php foreach ( $eco as $item ) :
+				if ( empty( $item[0] ) || is_wp_error( $item[0] ) ) { continue; }
+				?>
+				<a href="<?php echo esc_url( $item[0] ); ?>" class="group glass-panel p-7 flex flex-col gap-3 no-underline hover:border-white/40 transition-colors duration-500">
+					<span class="text-mono-label uppercase text-on-surface-variant tracking-widest text-xs"><?php echo esc_html( $item[2] ); ?></span>
+					<span class="text-headline-lg font-bold text-primary uppercase tracking-tight leading-tight group-hover:text-white transition-colors"><?php echo esc_html( $item[1] ); ?></span>
+					<span class="inline-flex items-center gap-2 text-label-caps uppercase text-primary tracking-widest mt-auto"><?php esc_html_e( 'Open', 'bangla-led' ); ?> <span aria-hidden="true">&rarr;</span></span>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</section>
 
 <?php endwhile; ?>
 

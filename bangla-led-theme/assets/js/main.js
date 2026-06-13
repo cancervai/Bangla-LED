@@ -98,5 +98,48 @@
 				booking.scrollIntoView( { behavior: 'auto', block: 'center' } );
 			}
 		}
+
+		/* Lead-capture popup — show once per visitor, ~6s after load. */
+		var popup = document.getElementById( 'bl-popup' );
+		if ( popup ) {
+			var SEEN = 'bl_popup_seen';
+			var openPopup = function () {
+				popup.classList.remove( 'hidden' );
+				popup.classList.add( 'flex' );
+			};
+			var closePopup = function () {
+				popup.classList.add( 'hidden' );
+				popup.classList.remove( 'flex' );
+				try { localStorage.setItem( SEEN, '1' ); } catch ( e ) {}
+			};
+
+			var alreadySeen = false;
+			try { alreadySeen = localStorage.getItem( SEEN ) === '1'; } catch ( e ) {}
+
+			if ( ! alreadySeen ) {
+				var timer = window.setTimeout( openPopup, 6000 );
+				/* Open sooner on exit-intent (cursor leaves toward the tab bar). */
+				document.addEventListener( 'mouseout', function ( e ) {
+					if ( e.clientY <= 0 && ! alreadySeen ) {
+						window.clearTimeout( timer );
+						openPopup();
+					}
+				} );
+			}
+
+			popup.querySelectorAll( '[data-bl-popup-close]' ).forEach( function ( el ) {
+				el.addEventListener( 'click', closePopup );
+			} );
+			document.addEventListener( 'keydown', function ( e ) {
+				if ( e.key === 'Escape' ) { closePopup(); }
+			} );
+			/* Submitting marks it seen so it never nags again. */
+			var pform = popup.querySelector( 'form' );
+			if ( pform ) {
+				pform.addEventListener( 'submit', function () {
+					try { localStorage.setItem( SEEN, '1' ); } catch ( e ) {}
+				} );
+			}
+		}
 	} );
 } )();
