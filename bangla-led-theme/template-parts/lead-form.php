@@ -66,6 +66,15 @@ $lead_state    = isset( $_GET['lead'] ) ? sanitize_text_field( wp_unslash( $_GET
                 <?php echo esc_html( $button_text ); ?>
                 <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
             </button>
+
+            <div class="relative z-10 flex items-center gap-4 pt-2 text-mono-label uppercase tracking-widest text-on-surface-variant">
+                <span class="h-px flex-1 bg-white/15"></span>
+                <span><?php esc_html_e( 'or call directly', 'bangla-led' ); ?></span>
+                <span class="h-px flex-1 bg-white/15"></span>
+            </div>
+            <a href="tel:<?php echo esc_attr( BANGLA_LED_PHONE_TEL ); ?>" data-bl-call="1" class="relative z-10 -mt-2 inline-flex items-center justify-center gap-2 text-label-caps uppercase text-primary tracking-widest no-underline hover:opacity-80 transition-opacity">
+                <span aria-hidden="true">&#9742;</span> <?php echo esc_html( BANGLA_LED_PHONE ); ?>
+            </a>
         </form>
     <?php endif; ?>
 </div>

@@ -14,9 +14,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BANGLA_LED_VERSION', '1.2.0' );
+define( 'BANGLA_LED_VERSION', '1.3.0' );
+
+/**
+ * Sitewide contact number — drives every click-to-call CTA.
+ */
+define( 'BANGLA_LED_PHONE', '+880 1341-250342' );
+define( 'BANGLA_LED_PHONE_TEL', '+8801341250342' );
+
+/**
+ * Render a standard click-to-call CTA button.
+ *
+ * @param array $args label, classes, show_number.
+ */
+function bangla_led_call_button( $args = array() ) {
+	$label       = isset( $args['label'] ) ? $args['label'] : __( 'Call Now', 'bangla-led' );
+	$classes     = isset( $args['classes'] ) ? $args['classes'] : 'glass-button px-8 py-4 text-label-caps uppercase tracking-widest';
+	$show_number = ! isset( $args['show_number'] ) || $args['show_number'];
+	printf(
+		'<a class="inline-flex items-center justify-center gap-2 no-underline %1$s" href="tel:%2$s" data-bl-call="1"><span aria-hidden="true">&#9742;</span> %3$s%4$s</a>',
+		esc_attr( $classes ),
+		esc_attr( BANGLA_LED_PHONE_TEL ),
+		esc_html( $label ),
+		$show_number ? ' <span class="opacity-90">' . esc_html( BANGLA_LED_PHONE ) . '</span>' : ''
+	);
+}
 
 require_once get_template_directory() . '/inc/demo-articles.php';
+require_once get_template_directory() . '/inc/demo-services.php';
 
 /**
  * Default cinematic imagery (used when no featured image is set).
@@ -184,6 +209,25 @@ function bangla_led_register_post_types() {
 		'show_in_rest'  => true,
 	) );
 
+	/* Services — money-keyword advertising-format landing pages. */
+	register_post_type( 'service', array(
+		'labels' => array(
+			'name'          => __( 'Services', 'bangla-led' ),
+			'singular_name' => __( 'Service', 'bangla-led' ),
+			'add_new_item'  => __( 'Add New Service', 'bangla-led' ),
+			'edit_item'     => __( 'Edit Service', 'bangla-led' ),
+			'all_items'     => __( 'All Services', 'bangla-led' ),
+			'menu_name'     => __( 'Services', 'bangla-led' ),
+		),
+		'public'        => true,
+		'has_archive'   => true,
+		'rewrite'       => array( 'slug' => 'services', 'with_front' => false ),
+		'menu_icon'     => 'dashicons-screenoptions',
+		'menu_position' => 6,
+		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+		'show_in_rest'  => true,
+	) );
+
 	/* Leads — private storage so no enquiry is ever lost in transit. */
 	register_post_type( 'bl_lead', array(
 		'labels' => array(
@@ -252,6 +296,15 @@ function bangla_led_add_meta_boxes() {
 		__( 'Campaign Details', 'bangla-led' ),
 		'bangla_led_campaign_meta_box',
 		'campaign',
+		'side',
+		'default'
+	);
+
+	add_meta_box(
+		'bangla_led_service_data',
+		__( 'Service Details', 'bangla-led' ),
+		'bangla_led_service_meta_box',
+		'service',
 		'side',
 		'default'
 	);
@@ -353,6 +406,50 @@ function bangla_led_save_campaign_meta( $post_id ) {
 	}
 }
 add_action( 'save_post_campaign', 'bangla_led_save_campaign_meta' );
+
+function bangla_led_service_meta_box( $post ) {
+	wp_nonce_field( 'bangla_led_save_service', 'bangla_led_service_nonce' );
+	$icon     = get_post_meta( $post->ID, '_bl_service_icon', true );
+	$tagline  = get_post_meta( $post->ID, '_bl_service_tagline', true );
+	$keywords = get_post_meta( $post->ID, '_bl_service_keywords', true );
+	?>
+	<p>
+		<label for="_bl_service_icon"><strong><?php esc_html_e( 'Icon Glyph', 'bangla-led' ); ?></strong></label>
+		<input type="text" class="widefat" id="_bl_service_icon" name="_bl_service_icon" value="<?php echo esc_attr( $icon ); ?>" placeholder="◧" />
+	</p>
+	<p>
+		<label for="_bl_service_tagline"><strong><?php esc_html_e( 'Card Tagline', 'bangla-led' ); ?></strong></label>
+		<textarea class="widefat" rows="2" id="_bl_service_tagline" name="_bl_service_tagline"><?php echo esc_textarea( $tagline ); ?></textarea>
+	</p>
+	<p>
+		<label for="_bl_service_keywords"><strong><?php esc_html_e( 'Target Keywords', 'bangla-led' ); ?></strong></label>
+		<input type="text" class="widefat" id="_bl_service_keywords" name="_bl_service_keywords" value="<?php echo esc_attr( $keywords ); ?>" />
+	</p>
+	<?php
+}
+
+function bangla_led_save_service_meta( $post_id ) {
+	if ( ! isset( $_POST['bangla_led_service_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bangla_led_service_nonce'] ) ), 'bangla_led_save_service' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['_bl_service_icon'] ) ) {
+		update_post_meta( $post_id, '_bl_service_icon', sanitize_text_field( wp_unslash( $_POST['_bl_service_icon'] ) ) );
+	}
+	if ( isset( $_POST['_bl_service_tagline'] ) ) {
+		update_post_meta( $post_id, '_bl_service_tagline', sanitize_text_field( wp_unslash( $_POST['_bl_service_tagline'] ) ) );
+	}
+	if ( isset( $_POST['_bl_service_keywords'] ) ) {
+		update_post_meta( $post_id, '_bl_service_keywords', sanitize_text_field( wp_unslash( $_POST['_bl_service_keywords'] ) ) );
+	}
+}
+add_action( 'save_post_service', 'bangla_led_save_service_meta' );
 
 /**
  * Read a location meta value with a graceful default.
@@ -521,9 +618,16 @@ function bangla_led_json_ld() {
 		'name'        => 'Bangla LED',
 		'url'         => home_url( '/' ),
 		'description' => __( 'Premium cinema-grade digital out-of-home (DOOH) advertising network in Bangladesh.', 'bangla-led' ),
+		'telephone'   => BANGLA_LED_PHONE_TEL,
 		'areaServed'  => array(
 			'@type' => 'Country',
 			'name'  => 'Bangladesh',
+		),
+		'contactPoint' => array(
+			'@type'       => 'ContactPoint',
+			'telephone'   => BANGLA_LED_PHONE_TEL,
+			'contactType' => 'sales',
+			'areaServed'  => 'BD',
 		),
 	);
 
@@ -582,6 +686,27 @@ function bangla_led_json_ld() {
 			'@context'        => 'https://schema.org',
 			'@type'           => 'BreadcrumbList',
 			'itemListElement' => $crumbs,
+		);
+	}
+
+	if ( is_singular( 'service' ) ) {
+		$schema[] = array(
+			'@context'    => 'https://schema.org',
+			'@type'       => 'Service',
+			'name'        => get_the_title(),
+			'description' => wp_strip_all_tags( get_the_excerpt() ),
+			'url'         => get_permalink(),
+			'serviceType' => get_the_title(),
+			'areaServed'  => array(
+				'@type' => 'Country',
+				'name'  => 'Bangladesh',
+			),
+			'provider'    => array(
+				'@type'     => 'Organization',
+				'name'      => 'Bangla LED',
+				'url'       => home_url( '/' ),
+				'telephone' => BANGLA_LED_PHONE_TEL,
+			),
 		);
 	}
 
@@ -663,7 +788,7 @@ function bangla_led_find_by_title( $title, $type ) {
 }
 
 function bangla_led_seed_demo_content() {
-	if ( get_option( 'bangla_led_seeded_v3' ) ) {
+	if ( get_option( 'bangla_led_seeded_v4' ) ) {
 		flush_rewrite_rules();
 		return;
 	}
@@ -674,6 +799,24 @@ function bangla_led_seed_demo_content() {
 	require_once get_template_directory() . '/inc/demo-content.php';
 	require_once get_template_directory() . '/inc/demo-content-extra.php';
 	require_once get_template_directory() . '/inc/demo-articles.php';
+	require_once get_template_directory() . '/inc/demo-services.php';
+
+	/* Editorial categories — the topic clusters that organise the news hub. */
+	$category_map = array(
+		'area-guides'   => __( 'Area & Corridor Guides', 'bangla-led' ),
+		'buying-guides' => __( 'Billboard Buying Guides', 'bangla-led' ),
+		'insights'      => __( 'Industry Insights', 'bangla-led' ),
+	);
+	$cat_ids = array();
+	foreach ( $category_map as $slug => $name ) {
+		$existing = term_exists( $slug, 'category' );
+		if ( ! $existing ) {
+			$existing = wp_insert_term( $name, 'category', array( 'slug' => $slug ) );
+		}
+		if ( ! is_wp_error( $existing ) ) {
+			$cat_ids[ $slug ] = (int) $existing['term_id'];
+		}
+	}
 
 	/* Terms — cities and their neighborhoods (base + extended). */
 	$all_terms = bangla_led_demo_terms();
@@ -748,34 +891,84 @@ function bangla_led_seed_demo_content() {
 		}
 	}
 
-	/* SEO editorial posts. */
+	/* SEO editorial posts — categorised as Industry Insights. */
 	foreach ( bangla_led_demo_posts() as $article ) {
-		if ( bangla_led_find_by_title( $article['title'], 'post' ) ) {
+		$existing = bangla_led_find_by_title( $article['title'], 'post' );
+		if ( $existing ) {
+			if ( isset( $cat_ids['insights'] ) ) {
+				wp_set_object_terms( $existing, array( $cat_ids['insights'] ), 'category' );
+			}
 			continue;
 		}
-		wp_insert_post( array(
-			'post_type'    => 'post',
-			'post_status'  => 'publish',
-			'post_title'   => $article['title'],
-			'post_excerpt' => $article['excerpt'],
-			'post_content' => $article['content'],
+		$post_id = wp_insert_post( array(
+			'post_type'     => 'post',
+			'post_status'   => 'publish',
+			'post_title'    => $article['title'],
+			'post_excerpt'  => $article['excerpt'],
+			'post_content'  => $article['content'],
+			'post_category' => isset( $cat_ids['insights'] ) ? array( $cat_ids['insights'] ) : array(),
 		) );
 	}
 
-	/* Area guides + question articles — explicit slugs so templates can link them. */
-	$editorial = array_merge( bangla_led_demo_area_articles(), bangla_led_demo_faq_articles() );
-	foreach ( $editorial as $article ) {
-		if ( bangla_led_find_by_title( $article['title'], 'post' ) ) {
+	/* Area guides → Area & Corridor Guides cluster. */
+	foreach ( bangla_led_demo_area_articles() as $article ) {
+		$existing = bangla_led_find_by_title( $article['title'], 'post' );
+		if ( $existing ) {
+			if ( isset( $cat_ids['area-guides'] ) ) {
+				wp_set_object_terms( $existing, array( $cat_ids['area-guides'] ), 'category' );
+			}
 			continue;
 		}
 		wp_insert_post( array(
-			'post_type'    => 'post',
-			'post_status'  => 'publish',
-			'post_title'   => $article['title'],
-			'post_name'    => $article['slug'],
-			'post_excerpt' => $article['excerpt'],
-			'post_content' => $article['content'],
+			'post_type'     => 'post',
+			'post_status'   => 'publish',
+			'post_title'    => $article['title'],
+			'post_name'     => $article['slug'],
+			'post_excerpt'  => $article['excerpt'],
+			'post_content'  => $article['content'],
+			'post_category' => isset( $cat_ids['area-guides'] ) ? array( $cat_ids['area-guides'] ) : array(),
 		) );
+	}
+
+	/* Question / buying-guide articles → Billboard Buying Guides cluster. */
+	foreach ( bangla_led_demo_faq_articles() as $article ) {
+		$existing = bangla_led_find_by_title( $article['title'], 'post' );
+		if ( $existing ) {
+			if ( isset( $cat_ids['buying-guides'] ) ) {
+				wp_set_object_terms( $existing, array( $cat_ids['buying-guides'] ), 'category' );
+			}
+			continue;
+		}
+		wp_insert_post( array(
+			'post_type'     => 'post',
+			'post_status'   => 'publish',
+			'post_title'    => $article['title'],
+			'post_name'     => $article['slug'],
+			'post_excerpt'  => $article['excerpt'],
+			'post_content'  => $article['content'],
+			'post_category' => isset( $cat_ids['buying-guides'] ) ? array( $cat_ids['buying-guides'] ) : array(),
+		) );
+	}
+
+	/* Advertising service lines — the money-keyword landing pages. */
+	foreach ( bangla_led_demo_services() as $service ) {
+		if ( bangla_led_find_by_title( $service['title'], 'service' ) ) {
+			continue;
+		}
+		$post_id = wp_insert_post( array(
+			'post_type'    => 'service',
+			'post_status'  => 'publish',
+			'post_title'   => $service['title'],
+			'post_name'    => $service['slug'],
+			'post_excerpt' => $service['excerpt'],
+			'post_content' => $service['content'],
+			'menu_order'   => isset( $service['menu'] ) ? (int) $service['menu'] : 0,
+		) );
+		if ( $post_id && ! is_wp_error( $post_id ) ) {
+			update_post_meta( $post_id, '_bl_service_icon', $service['icon'] );
+			update_post_meta( $post_id, '_bl_service_tagline', $service['tagline'] );
+			update_post_meta( $post_id, '_bl_service_keywords', $service['keywords'] );
+		}
 	}
 
 	/* Create the News page if it doesn't exist. */
@@ -789,10 +982,24 @@ function bangla_led_seed_demo_content() {
 		) );
 	}
 
-	update_option( 'bangla_led_seeded_v3', 1 );
+	update_option( 'bangla_led_seeded_v4', 1 );
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'bangla_led_seed_demo_content' );
+
+/**
+ * Run pending seeds on a normal request too.
+ *
+ * WP Pusher (and git-based deploys) update theme files in place without
+ * re-activating the theme, so `after_switch_theme` never fires. This
+ * guard makes new seed versions apply on the next page load instead.
+ */
+function bangla_led_maybe_seed() {
+	if ( ! get_option( 'bangla_led_seeded_v4' ) ) {
+		bangla_led_seed_demo_content();
+	}
+}
+add_action( 'wp_loaded', 'bangla_led_maybe_seed' );
 
 /* -------------------------------------------------------------------------
  * Admin polish

@@ -37,12 +37,13 @@ $hero_image = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), '
                 <?php esc_html_e( 'Cinema-grade LED billboards at Gulshan, Banani, Dhanmondi, Uttara, and 30+ more corridors across 10 cities — the screens Bangladesh\'s biggest brands book first. Rates, availability, and audience data delivered within one business day.', 'bangla-led' ); ?>
             </p>
             <div class="flex flex-wrap gap-4">
-                <a class="inline-flex items-center justify-center glass-button px-8 py-4 text-label-caps uppercase text-primary tracking-widest gap-2 group no-underline" href="#booking">
+                <?php bangla_led_call_button( array( 'label' => __( 'Call Now', 'bangla-led' ) ) ); ?>
+                <a class="inline-flex items-center justify-center px-8 py-4 text-label-caps uppercase text-primary tracking-widest gap-2 group no-underline border border-white/25 hover:border-white/60 transition-colors" href="#booking">
                     <?php esc_html_e( 'Get Availability &amp; Pricing', 'bangla-led' ); ?>
                     <span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
                 </a>
                 <a class="inline-flex items-center justify-center px-8 py-4 text-label-caps uppercase text-on-surface-variant hover:text-primary tracking-widest transition-colors no-underline" href="<?php echo esc_url( get_post_type_archive_link( 'location' ) ); ?>">
-                    <?php esc_html_e( 'View Billboard Locations', 'bangla-led' ); ?>
+                    <?php esc_html_e( 'View Locations', 'bangla-led' ); ?>
                 </a>
             </div>
 
@@ -101,6 +102,9 @@ $hero_image = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), '
     </div>
 </section>
 <?php endif; ?>
+
+<!-- Advertising categories / service lines -->
+<?php get_template_part( 'template-parts/advertising-categories' ); ?>
 
 <!-- Featured Locations / View All -->
 <?php
@@ -428,9 +432,12 @@ $campaigns = new WP_Query( array(
 </section>
 
 <!-- Sticky mobile CTA (CRO: never lose the action while scrolling) -->
-<div id="bl-sticky-cta" class="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-black/80 border-t border-white/15" style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);" hidden>
-    <a class="glass-button flex items-center justify-center w-full py-4 text-label-caps uppercase tracking-widest gap-2 no-underline" href="#booking">
-        <?php esc_html_e( 'Get Availability &amp; Pricing', 'bangla-led' ); ?> <span aria-hidden="true">&rarr;</span>
+<div id="bl-sticky-cta" class="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-black/80 border-t border-white/15 grid grid-cols-2 gap-2" style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);" hidden>
+    <a class="glass-button flex items-center justify-center py-4 text-label-caps uppercase tracking-widest gap-2 no-underline" href="tel:<?php echo esc_attr( BANGLA_LED_PHONE_TEL ); ?>" data-bl-call="1">
+        <span aria-hidden="true">&#9742;</span> <?php esc_html_e( 'Call', 'bangla-led' ); ?>
+    </a>
+    <a class="flex items-center justify-center py-4 text-label-caps uppercase tracking-widest gap-2 no-underline border border-white/25 text-primary" href="#booking">
+        <?php esc_html_e( 'Pricing', 'bangla-led' ); ?> <span aria-hidden="true">&rarr;</span>
     </a>
 </div>
 

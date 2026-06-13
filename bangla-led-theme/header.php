@@ -163,9 +163,9 @@
             <?php
         } else {
             $nav_links = array(
+                __( 'Services', 'bangla-led' )  => get_post_type_archive_link( 'service' ),
                 __( 'Locations', 'bangla-led' ) => get_post_type_archive_link( 'location' ),
                 __( 'News', 'bangla-led' )      => home_url( '/news/' ),
-                __( 'Networks', 'bangla-led' )  => home_url( '/#network' ),
                 __( 'Campaigns', 'bangla-led' ) => get_post_type_archive_link( 'campaign' ),
                 __( 'Contact', 'bangla-led' )   => home_url( '/#booking' ),
             );
@@ -181,8 +181,11 @@
     </div>
 
     <div class="flex items-center gap-4">
-        <a class="hidden md:inline-block glass-button px-6 py-3 text-label-caps uppercase text-primary tracking-widest no-underline" href="<?php echo esc_url( is_singular( 'location' ) ? '#booking' : home_url( '/#booking' ) ); ?>">
-            <?php esc_html_e( 'GET PRICING', 'bangla-led' ); ?>
+        <a class="hidden lg:inline-flex items-center gap-2 text-label-caps uppercase text-primary tracking-widest no-underline hover:opacity-80 transition-opacity" href="tel:<?php echo esc_attr( BANGLA_LED_PHONE_TEL ); ?>" data-bl-call="1">
+            <span aria-hidden="true">&#9742;</span> <?php echo esc_html( BANGLA_LED_PHONE ); ?>
+        </a>
+        <a class="hidden md:inline-block glass-button px-6 py-3 text-label-caps uppercase text-primary tracking-widest no-underline" href="tel:<?php echo esc_attr( BANGLA_LED_PHONE_TEL ); ?>" data-bl-call="1">
+            <?php esc_html_e( 'CALL NOW', 'bangla-led' ); ?>
         </a>
 
         <button id="bl-menu-toggle" class="md:hidden glass-button p-3 text-primary" aria-expanded="false" aria-controls="bl-mobile-menu" aria-label="<?php esc_attr_e( 'Toggle menu', 'bangla-led' ); ?>">
@@ -199,9 +202,9 @@
 <div id="bl-mobile-menu" class="mobile-menu fixed top-20 inset-x-0 z-40 flex-col gap-6 px-margin-mobile py-10 text-label-caps uppercase md:hidden" hidden>
     <?php
     $mobile_links = array(
+        __( 'Services', 'bangla-led' )  => get_post_type_archive_link( 'service' ),
         __( 'Locations', 'bangla-led' ) => get_post_type_archive_link( 'location' ),
         __( 'News', 'bangla-led' )      => home_url( '/news/' ),
-        __( 'Networks', 'bangla-led' )  => home_url( '/#network' ),
         __( 'Campaigns', 'bangla-led' ) => get_post_type_archive_link( 'campaign' ),
         __( 'Contact', 'bangla-led' )   => home_url( '/#booking' ),
     );
@@ -212,7 +215,8 @@
         ?>
         <a class="block py-4 text-on-surface-variant hover:text-primary border-b border-white/10 no-underline" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a>
     <?php endforeach; ?>
-    <a class="glass-button block text-center px-6 py-4 mt-4 text-primary tracking-widest no-underline" href="<?php echo esc_url( home_url( '/#booking' ) ); ?>"><?php esc_html_e( 'GET PRICING', 'bangla-led' ); ?></a>
+    <a class="glass-button flex items-center justify-center gap-2 text-center px-6 py-4 mt-4 text-primary tracking-widest no-underline" href="tel:<?php echo esc_attr( BANGLA_LED_PHONE_TEL ); ?>" data-bl-call="1"><span aria-hidden="true">&#9742;</span> <?php esc_html_e( 'CALL', 'bangla-led' ); ?> <?php echo esc_html( BANGLA_LED_PHONE ); ?></a>
+    <a class="block text-center px-6 py-4 mt-2 text-on-surface-variant hover:text-primary border border-white/20 no-underline" href="<?php echo esc_url( home_url( '/#booking' ) ); ?>"><?php esc_html_e( 'GET PRICING', 'bangla-led' ); ?></a>
 </div>
 
 <main id="main">

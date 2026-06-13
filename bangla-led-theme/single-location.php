@@ -85,10 +85,13 @@ while ( have_posts() ) :
 					);
 					?>
 				</p>
-				<a class="inline-flex items-center justify-center glass-button px-8 py-4 text-label-caps uppercase text-primary tracking-widest gap-2 group no-underline" href="#booking">
-					<?php esc_html_e( 'Check Availability &amp; Pricing', 'bangla-led' ); ?>
-					<span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
-				</a>
+				<div class="flex flex-col sm:flex-row gap-4">
+					<?php bangla_led_call_button( array( 'label' => __( 'Call Now', 'bangla-led' ) ) ); ?>
+					<a class="inline-flex items-center justify-center px-8 py-4 text-label-caps uppercase text-primary tracking-widest gap-2 group no-underline border border-white/25 hover:border-white/60 transition-colors" href="#booking">
+						<?php esc_html_e( 'Check Availability &amp; Pricing', 'bangla-led' ); ?>
+						<span class="group-hover:translate-x-1 transition-transform" aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -413,9 +416,11 @@ while ( have_posts() ) :
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
 			<div>
 				<h2 class="text-display-lg-mobile md:text-display-lg font-black text-primary uppercase mb-6"><?php esc_html_e( 'Secure This Placement', 'bangla-led' ); ?></h2>
-				<p class="text-body-lg text-on-surface-variant max-w-md">
+				<p class="text-body-lg text-on-surface-variant max-w-md mb-8">
 					<?php esc_html_e( 'Availability is strictly limited and prime flights sell by the quarter. Submit your details and the full rate card, media kit, and availability calendar for this location land in your inbox within one business day.', 'bangla-led' ); ?>
 				</p>
+				<div class="text-mono-label uppercase tracking-widest text-on-surface-variant mb-3"><?php esc_html_e( 'Prefer to talk now?', 'bangla-led' ); ?></div>
+				<?php bangla_led_call_button( array( 'label' => __( 'Call', 'bangla-led' ) ) ); ?>
 			</div>
 			<?php
 			get_template_part( 'template-parts/lead-form', null, array(
