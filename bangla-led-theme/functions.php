@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BANGLA_LED_VERSION', '1.4.0' );
+define( 'BANGLA_LED_VERSION', '1.5.0' );
 
 /**
  * Sitewide contact number — drives every click-to-call CTA.

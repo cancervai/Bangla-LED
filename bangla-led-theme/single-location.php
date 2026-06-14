@@ -49,7 +49,7 @@ while ( have_posts() ) :
 			<img
 				src="<?php echo esc_url( $hero_image ); ?>"
 				alt="<?php echo esc_attr( sprintf( /* translators: %s: location title. */ __( 'Digital billboard at %s', 'bangla-led' ), get_the_title() ) ); ?>"
-				class="w-full h-full object-cover object-center grayscale opacity-60"
+				class="w-full h-full object-cover object-center opacity-75"
 				fetchpriority="high"
 			/>
 		</div>
@@ -94,6 +94,22 @@ while ( have_posts() ) :
 				</div>
 			</div>
 		</div>
+	</section>
+
+	<!-- Billboard photo — the actual screen, full colour -->
+	<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto -mt-10 md:-mt-16 relative z-30 pb-section-gap-mobile md:pb-16">
+		<figure class="border border-white/10 overflow-hidden bg-surface-container">
+			<img
+				src="<?php echo esc_url( bangla_led_location_photo( $location_id, 'bangla-led-wide' ) ); ?>"
+				alt="<?php echo esc_attr( sprintf( /* translators: %s: location title. */ __( 'The Bangla LED screen at %s', 'bangla-led' ), get_the_title() ) ); ?>"
+				class="w-full aspect-video object-cover"
+				loading="lazy"
+			/>
+			<figcaption class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-6 py-4 border-t border-white/10">
+				<span class="text-mono-label uppercase tracking-widest text-on-surface-variant"><?php echo esc_html( get_the_title() ); ?><?php if ( $facing = bangla_led_meta( $location_id, '_bl_facing' ) ) : ?> &middot; <?php echo esc_html( $facing ); ?><?php endif; ?></span>
+				<span class="text-mono-label uppercase tracking-widest text-primary"><?php esc_html_e( 'Live On The Network', 'bangla-led' ); ?></span>
+			</figcaption>
+		</figure>
 	</section>
 
 	<!-- Location context + map -->

@@ -57,6 +57,14 @@ while ( have_posts() ) :
 						<a class="inline-flex items-center justify-center gap-2 w-full py-4 text-label-caps uppercase text-primary tracking-widest border border-white/20 hover:border-white/50 transition-colors no-underline" href="#booking">
 							<?php esc_html_e( 'Request Media Kit', 'bangla-led' ); ?>
 						</a>
+						<?php if ( 'metro-rail-led-advertising' === get_post_field( 'post_name', $service_id ) ) : ?>
+							<div class="border-t border-white/10 pt-6 mt-2">
+								<div class="text-mono-label uppercase tracking-widest text-on-surface-variant mb-2"><?php esc_html_e( 'Official Metro Reference', 'bangla-led' ); ?></div>
+								<a class="inline-flex items-center gap-2 text-label-caps uppercase text-primary tracking-widest no-underline hover:opacity-80 transition-opacity" href="https://dhakametroad.com/" target="_blank" rel="noopener">
+									<?php esc_html_e( 'Dhaka Metro Rail Advertising', 'bangla-led' ); ?> <span aria-hidden="true">&#8599;</span>
+								</a>
+							</div>
+						<?php endif; ?>
 					</div>
 				</aside>
 			</div>
